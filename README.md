@@ -75,6 +75,8 @@ and applied after combat.
 - No AddOns-list icon yet: the PaTiRota artwork (rotation arrows with skill icons) still has to be added
   (`Media/icon.tga`).
 - Skills are cast with your highest known rank.
+- While the window is collapsed or in test mode the slot buttons have no spell: their key bindings do nothing then
+  (on purpose — nothing is cast from a hidden list). Whether bindings work while the window is hidden: PT-ROTA-045.
 
 ## Development
 
