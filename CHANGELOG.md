@@ -23,6 +23,8 @@ Format: `## [Unreleased]` / `## [x.y.z] - YYYY-MM-DD` with Added, Changed, Fixed
   unlock, reset, settings, debug, version. English texts, German translation. MIT license.
 - Icon (owner-provided 2026-10-02, PaTiSuite style: rotation arrows around a skill list, blue and gold):
   `Media/icon.tga` for the AddOns list, platform images in `assets/`.
+### Fixed
+- Hardening: a broken SavedVariables save (not a table, a broken schema or scale) no longer breaks the login; only the broken value is replaced, every valid setting (also `false`) stays, and the migration is idempotent (tests/robustness_spec.lua).
 ### Known Issues
 - Not tested in game yet (`INGAME_TESTING.md`): cooldown API, GCD reference, secure casting, key bindings on hidden
   buttons and drag & drop from the spellbook are unconfirmed in the Forever client.

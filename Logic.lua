@@ -32,6 +32,8 @@ function Logic.Migrate(db)
     for key, value in pairs(Logic.DEFAULTS) do
         if db[key] == nil then db[key] = value end
     end
+    -- A broken scale would make SetScale fail on login: only a sane number is kept (saved values elsewhere stay).
+    if type(db.scale) ~= "number" or db.scale < 0.5 or db.scale > 2 then db.scale = Logic.DEFAULTS.scale end
     local old, slots, seen = type(db.slots) == "table" and db.slots or {}, {}, {}
     for index = 1, Logic.SLOTS do
         local id = validSlot(old[index]) and old[index] or 0
