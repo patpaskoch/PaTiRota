@@ -1,0 +1,150 @@
+-- PaTiRota: settings, slot order, cooldown states and the recommendation — no WoW API calls (tests/logic_spec.lua).
+-- The recommendation is a display only: the highest-priority slot that is ready. It never casts anything; every slot
+-- has its own fixed secure button whose spell changes only out of combat (PaTiRota.lua).
+local _, ns = ...
+local Logic = {}
+ns.Logic = Logic
+
+Logic.SCHEMA = 1
+Logic.SLOTS = 10 -- configurable skill slots; order = your priority (slot 1 first)
+Logic.SCALES = { 0.8, 0.9, 1, 1.1, 1.25, 1.5 }
+-- Without a readable global cooldown reference, a cooldown this short counts as the global cooldown (classic GCD
+-- is 1.5 s; shorter with haste). Only used as the fallback (docs/WOW_API_COMPAT.md).
+Logic.GCD_MAX = 1.5
+
+-- Position (point, relativePoint, x, y) is written by the PaTiShared window, not listed here.
+Logic.DEFAULTS = {
+    opacity = 0.75, -- panel body opacity (PaTiShared window; 0.3–1)
+    locked = false,
+    collapsed = false,
+    scale = 1,
+    language = "auto",
+}
+
+local function validSlot(value)
+    return type(value) == "number" and value >= 0 and value == math.floor(value)
+end
+
+-- Fills missing values, keeps existing ones (also false). slots: Logic.SLOTS spell IDs, 0 = empty; anything broken
+-- becomes empty, a spell that appears twice keeps only its first (highest-priority) slot.
+function Logic.Migrate(db)
+    if type(db) ~= "table" then db = {} end
+    for key, value in pairs(Logic.DEFAULTS) do
+        if db[key] == nil then db[key] = value end
+    end
+    local old, slots, seen = type(db.slots) == "table" and db.slots or {}, {}, {}
+    for index = 1, Logic.SLOTS do
+        local id = validSlot(old[index]) and old[index] or 0
+        if id ~= 0 and seen[id] then id = 0 end
+        seen[id] = true
+        slots[index] = id
+    end
+    db.slots = slots
+    db.schema = Logic.SCHEMA
+    return db
+end
+
+-- "Restore Defaults": settings back; position and your skill slots are kept (there are no default skills, so wiping
+-- them would only lose your setup — clear a slot by emptying it).
+function Logic.RestoreDefaults(db)
+    for key, value in pairs(Logic.DEFAULTS) do db[key] = value end
+    return db
+end
+
+-- Puts spell `id` (0 = empty) into slot `index`. A spell is in at most one slot: if it was in another slot, that
+-- slot gets what `index` had before (the two swap).
+function Logic.SetSlot(slots, index, id)
+    if id ~= 0 then
+        for other, value in ipairs(slots) do
+            if value == id and other ~= index then slots[other] = slots[index] end
+        end
+    end
+    slots[index] = id
+    return slots
+end
+
+-- Moves slot `index` one up (delta -1) or down (+1) by swapping with its neighbour. Returns true if it moved.
+function Logic.Move(slots, index, delta)
+    local target = index + delta
+    if target < 1 or target > #slots then return false end
+    slots[index], slots[target] = slots[target], slots[index]
+    return true
+end
+
+-- The slots with a spell, in priority order: { { slot, id } }.
+function Logic.Filled(slots)
+    local list = {}
+    for index, id in ipairs(slots) do
+        if id ~= 0 then list[#list + 1] = { slot = index, id = id } end
+    end
+    return list
+end
+
+-- Secret-value rule (AGENTS.md §8): check readability FIRST, compare or calculate only afterwards.
+
+-- raw (from the API adapter): { known, start, duration, usable } of one spell; gcd: { start, duration } of the
+-- global cooldown reference or nil. now = GetTime(). Returns { state, remaining? }:
+--   NOT_KNOWN   you have not learned the spell (or the client does not know the ID)
+--   UNKNOWN     cooldown not readable (secret / missing API) — never a recommendation
+--   UNUSABLE    WoW says it cannot be used now (e.g. not enough mana)
+--   COOLDOWN    on its own cooldown, `remaining` seconds left
+--   GCD         only the global cooldown runs: it is ready as soon as the GCD ends
+--   READY       ready now
+function Logic.CooldownState(raw, gcd, now, isSecret)
+    if raw.known ~= true then return { state = "NOT_KNOWN" } end
+    local start, duration = raw.start, raw.duration
+    if isSecret(start) or isSecret(duration) or type(start) ~= "number" or type(duration) ~= "number" then
+        return { state = "UNKNOWN" }
+    end
+    local usable = raw.usable
+    if not isSecret(usable) and usable == false then return { state = "UNUSABLE" } end
+    if start <= 0 or duration <= 0 then return { state = "READY" } end
+    local remaining = start + duration - now
+    if remaining <= 0 then return { state = "READY" } end
+    local gcdStart, gcdDuration = gcd and gcd.start, gcd and gcd.duration
+    local gcdReadable = type(gcdStart) == "number" and type(gcdDuration) == "number"
+        and not isSecret(gcdStart) and not isSecret(gcdDuration) and gcdDuration > 0
+    if gcdReadable then
+        -- Same start and length as the GCD reference: only the global cooldown, not the spell's own one.
+        if math.abs(start - gcdStart) < 0.05 and math.abs(duration - gcdDuration) < 0.05 then
+            return { state = "GCD", remaining = remaining }
+        end
+    elseif duration <= Logic.GCD_MAX then
+        return { state = "GCD", remaining = remaining }
+    end
+    return { state = "COOLDOWN", remaining = remaining }
+end
+
+-- states: CooldownState results in priority order. Returns the index to highlight and whether it is ready:
+--   the first READY or GCD one (the GCD runs for every spell alike, so it never makes the pick jump down the list);
+--   otherwise the COOLDOWN one that is ready soonest (`waiting` = true); nil if none is readable.
+function Logic.Recommend(states)
+    local soonest, soonestRemaining
+    for index, result in ipairs(states) do
+        if result.state == "READY" or result.state == "GCD" then return index, false end
+        if result.state == "COOLDOWN" and (not soonestRemaining or result.remaining < soonestRemaining) then
+            soonest, soonestRemaining = index, result.remaining
+        end
+    end
+    return soonest, soonest ~= nil
+end
+
+-- The secure attributes of one slot button: a fixed spell (left click and key binding) or nothing. Set out of
+-- combat only; in combat a button keeps what it had (one click = exactly that spell, never another one).
+function Logic.SlotAttributes(castName)
+    return { type1 = castName and "spell" or nil, spell1 = castName }
+end
+Logic.SLOT_ATTRIBUTES = { "type1", "spell1" }
+
+-- Remaining time as text: "3.2" below 10 s, whole seconds below a minute, then "2m".
+function Logic.FormatRemaining(seconds)
+    if seconds < 10 then return ("%.1f"):format(seconds) end
+    if seconds < 60 then return ("%d"):format(math.floor(seconds + 0.5)) end
+    return ("%dm"):format(math.floor(seconds / 60 + 0.5))
+end
+
+-- Test mode: fake states for the example skills (TEST_SKILLS in PaTiRota.lua), in slot order.
+Logic.TEST_STATES = {
+    { state = "READY" }, { state = "COOLDOWN", remaining = 3.2 }, { state = "COOLDOWN", remaining = 6.8 },
+    { state = "READY" },
+}

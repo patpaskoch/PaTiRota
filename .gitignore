@@ -1,0 +1,6 @@
+*.zip
+*.bak
+*.tmp
+.vscode/
+.idea/
+SavedVariables/

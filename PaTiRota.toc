@@ -1,0 +1,15 @@
+## Interface: 16001
+## Title: PaTiRota
+## Notes: Your own skill priority: cooldowns, the next ready skill, fixed cast buttons — never casts by itself
+## Notes-deDE: Deine Skill-Reihenfolge: Abklingzeiten, der nächste bereite Skill, feste Zauber-Buttons — zaubert nie selbst
+## Author: PaTi
+## Version: 0.1.0
+## SavedVariablesPerCharacter: PaTiRotaDB
+
+Shared\Shared.xml
+Locales\enUS.lua
+Locales\deDE.lua
+Logic.lua
+SpellBook.lua
+Settings.lua
+PaTiRota.lua

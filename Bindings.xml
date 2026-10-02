@@ -1,0 +1,13 @@
+<Bindings>
+    <!-- Shown under "PaTiRota" in WoW's key binding menu: one key per skill slot. PaTiRota never binds a key by itself. -->
+    <Binding name="CLICK PaTiRotaSlot1:LeftButton" header="PATIROTA" category="BINDING_HEADER_PATIROTA"/>
+    <Binding name="CLICK PaTiRotaSlot2:LeftButton" category="BINDING_HEADER_PATIROTA"/>
+    <Binding name="CLICK PaTiRotaSlot3:LeftButton" category="BINDING_HEADER_PATIROTA"/>
+    <Binding name="CLICK PaTiRotaSlot4:LeftButton" category="BINDING_HEADER_PATIROTA"/>
+    <Binding name="CLICK PaTiRotaSlot5:LeftButton" category="BINDING_HEADER_PATIROTA"/>
+    <Binding name="CLICK PaTiRotaSlot6:LeftButton" category="BINDING_HEADER_PATIROTA"/>
+    <Binding name="CLICK PaTiRotaSlot7:LeftButton" category="BINDING_HEADER_PATIROTA"/>
+    <Binding name="CLICK PaTiRotaSlot8:LeftButton" category="BINDING_HEADER_PATIROTA"/>
+    <Binding name="CLICK PaTiRotaSlot9:LeftButton" category="BINDING_HEADER_PATIROTA"/>
+    <Binding name="CLICK PaTiRotaSlot10:LeftButton" category="BINDING_HEADER_PATIROTA"/>
+</Bindings>
