@@ -1,5 +1,7 @@
 # PaTiRota
 
+<img src="assets/icon-128.png" width="96" alt="PaTiRota icon">
+
 Your own skill priority for World of Warcraft: Forever (Interface 16001). You put up to ten skills in your order;
 PaTiRota shows which one is ready next and when the others come back. Every skill has its own fixed button you
 can click — **PaTiRota never casts by itself**: no auto-cast, no cast chains, no button that changes its spell in combat.
@@ -72,8 +74,6 @@ and applied after combat.
 ## Known limitations
 - Not tested in game yet. Which cooldown API the Forever client answers, and whether it knows the global-cooldown
   reference spell (61304), is unconfirmed — `/prota debug` shows both. Without it, a cooldown up to 1.5 s counts as GCD.
-- No AddOns-list icon yet: the PaTiRota artwork (rotation arrows with skill icons) still has to be added
-  (`Media/icon.tga`).
 - Skills are cast with your highest known rank.
 - While the window is collapsed or in test mode the slot buttons have no spell: their key bindings do nothing then
   (on purpose — nothing is cast from a hidden list). Whether bindings work while the window is hidden: PT-ROTA-045.

@@ -21,7 +21,8 @@ Format: `## [Unreleased]` / `## [x.y.z] - YYYY-MM-DD` with Added, Changed, Fixed
   broken values and duplicates repaired on login). Restore Defaults keeps your slots and position.
 - Settings, Collapse, Test Mode (four example skills), `/prota`, `/patirota` with show, hide, toggle, test, lock,
   unlock, reset, settings, debug, version. English texts, German translation. MIT license.
+- Icon (owner-provided 2026-10-02, PaTiSuite style: rotation arrows around a skill list, blue and gold):
+  `Media/icon.tga` for the AddOns list, platform images in `assets/`.
 ### Known Issues
 - Not tested in game yet (`INGAME_TESTING.md`): cooldown API, GCD reference, secure casting, key bindings on hidden
   buttons and drag & drop from the spellbook are unconfirmed in the Forever client.
-- No AddOns-list icon yet (artwork still to be provided).

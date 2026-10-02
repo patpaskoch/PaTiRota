@@ -4,6 +4,7 @@
 ## Notes-deDE: Deine Skill-Reihenfolge: Abklingzeiten, der nächste bereite Skill, feste Zauber-Buttons — zaubert nie selbst
 ## Author: PaTi
 ## Version: 0.1.0
+## IconTexture: Interface\AddOns\PaTiRota\Media\icon
 ## SavedVariablesPerCharacter: PaTiRotaDB
 
 Shared\Shared.xml

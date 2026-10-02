@@ -20,7 +20,7 @@ Regeln und Eintragen von Ergebnissen: [PaTiAdmin/docs/TESTING.md](https://github
 ## Installation / Laden
 
 - [ ] PT-ROTA-001 Fresh Install aus dem Release-ZIP: genau ein Ordner `PaTiRota/`, Addon lädt allein
-- [ ] PT-ROTA-002 PaTiRota erscheint in der AddOn-Liste mit Beschreibung (noch ohne eigenes Icon, keine weiße Textur)
+- [ ] PT-ROTA-002 PaTiRota erscheint in der AddOn-Liste mit Beschreibung
 - [ ] PT-ROTA-003 Login und `/reload` ohne Lua-Fehler
 - [ ] PT-ROTA-004 `/prota debug`: Cooldown-API, Usable-API, GCD-Referenz 61304 lesbar ja/nein und je Platz Zustand
   und Button-Zauber (Ausgabe melden)
@@ -76,4 +76,4 @@ Regeln und Eintragen von Ergebnissen: [PaTiAdmin/docs/TESTING.md](https://github
 
 - [ ] PT-ROTA-060 Zusammen mit allen PaTi-Addons geladen: kein Lua-Fehler, `/prota` antwortet nur PaTiRota
 - [ ] PT-ROTA-061 PaTiSuite: „Rota“ erscheint (nach Tank); Ein-/Ausblenden wirkt; Zustand bleibt nach `/reload`
-- [ ] PT-ROTA-062 Icon in der AddOn-Liste, sobald die Grafik ergänzt ist
+- [ ] PT-ROTA-062 Icon in der AddOn-Liste korrekt (Rotationspfeile mit Skill-Icons), keine weiße oder fehlende Textur
