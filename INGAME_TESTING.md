@@ -78,10 +78,14 @@ Regeln und Eintragen von Ergebnissen: [PaTiAdmin/docs/TESTING.md](https://github
   readable | secret | missing“ (Ausgabe melden); geheime Werte erscheinen nie als Zahl
 - [ ] PT-ROTA-037 Ist der Cooldown im Kampf wirklich geheim: Status „im Kampf nicht lesbar“ (nicht „unklar“), Tooltip
   erklärt es, keine Empfehlung wird erfunden; der Button wirkt trotzdem
-- [ ] PT-ROTA-038 Abklingzeit-Uhr am Icon: nach dem Wirken läuft über dem Skill-Icon die WoW-Uhr ab, auch im Kampf, wenn die
+- [x] PT-ROTA-038 Abklingzeit-Uhr am Icon: nach dem Wirken läuft über dem Skill-Icon die WoW-Uhr ab, auch im Kampf, wenn die
   Anzeige „im Kampf nicht lesbar“ sagt (`/prota debug`: „clock SetCooldown“ oder „clock duration object“; Ausgabe melden)
   - ❌ FAIL 2026-10-03
   - Owner: im Kampf keine Uhr am Icon. Ursache noch offen (`/prota debug` im Kampf: „clock …“ und „last caught API error“).
+  - Ursache: in den Einstellungen war „Abklingzeit-Uhr am Icon“ aus (`/prota debug`: „clock off“).
+  - ✅ VERIFIED 2026-10-03
+  - Owner: mit eingeschalteter Uhr läuft bei Erdschock (8042) im Kampf die Uhr über dem Icon. Blitzschlag (403) hat
+    keine eigene Abklingzeit (nur GCD), daher dort keine Uhr — erwartet.
 - [ ] PT-ROTA-039 Einstellungen → „Abklingzeit-Uhr am Icon“ aus: keine Uhr; an: Uhr wieder da; kein Lua-Fehler, Klick auf das
   Icon wirkt weiterhin genau den Zauber des Platzes
 - [ ] PT-ROTA-064 Im Kampf mit Uhr: während die Abklingzeit läuft, liegt der dunkle Uhr-Schatten über dem Icon; ist sie
