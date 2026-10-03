@@ -23,6 +23,8 @@ Format: `## [Unreleased]` / `## [x.y.z] - YYYY-MM-DD` with Added, Changed, Fixed
   unlock, reset, settings, debug, version. English texts, German translation. MIT license.
 - Icon (owner-provided 2026-10-02, PaTiSuite style: rotation arrows around a skill list, blue and gold):
   `Media/icon.tga` for the AddOns list, platform images in `assets/`.
+### Changed
+- Diagnostics (hardening 2026-10-02): errors that are caught so the addon keeps running are no longer silent — the debug command shows the last caught error per source (no chat spam, nothing saved).
 ### Fixed
 - Hardening: a broken SavedVariables save (not a table, a broken schema or scale) no longer breaks the login; only the broken value is replaced, every valid setting (also `false`) stays, and the migration is idempotent (tests/robustness_spec.lua).
 ### Known Issues

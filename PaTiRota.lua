@@ -256,6 +256,8 @@ local function printDebug()
             and "IsUsableSpell" or "none"), issecretvalue and "yes" or "no", Spells.GCD_SPELL,
             tostring(type(gcdStart) == "number" and type(gcdDuration) == "number" and not isSecret(gcdStart)),
             testMode and "on" or "off", slotsPending and "yes" or "no"),
+        ("Combat %s · last caught API error: %s"):format(InCombatLockdown() and "yes" or "no",
+            Spells.lastError or "none"),
     }) do print("  " .. line) end
     local gcd = { start = gcdStart, duration = gcdDuration }
     for slot, id in ipairs(DB.slots) do

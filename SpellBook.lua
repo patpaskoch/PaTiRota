@@ -111,10 +111,12 @@ function Spells.Cooldown(id)
     if C_Spell and C_Spell.GetSpellCooldown then
         local ok, info = pcall(C_Spell.GetSpellCooldown, id)
         if ok and type(info) == "table" then return info.startTime, info.duration end
+        if not ok then Spells.lastError = tostring(info):sub(1, 120) end -- /prota debug only
     end
     if GetSpellCooldown then
         local ok, start, duration = pcall(GetSpellCooldown, id)
         if ok then return start, duration end
+        Spells.lastError = tostring(start):sub(1, 120)
     end
     return nil, nil
 end
@@ -124,7 +126,7 @@ function Spells.Usable(id)
     local fn = (C_Spell and C_Spell.IsSpellUsable) or IsUsableSpell
     if not fn then return nil end
     local ok, usable = pcall(fn, id)
-    if not ok then return nil end
+    if not ok then Spells.lastError = tostring(usable):sub(1, 120); return nil end
     if issecretvalue and issecretvalue(usable) then return usable end -- Logic treats it as unknown
     return usable == true or usable == 1 -- classic IsUsableSpell answers 1 / nil
 end
