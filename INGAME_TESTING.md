@@ -88,10 +88,13 @@ Regeln und Eintragen von Ergebnissen: [PaTiAdmin/docs/TESTING.md](https://github
     keine eigene Abklingzeit (nur GCD), daher dort keine Uhr — erwartet.
 - [ ] PT-ROTA-039 Einstellungen → „Abklingzeit-Uhr am Icon“ aus: keine Uhr; an: Uhr wieder da; kein Lua-Fehler, Klick auf das
   Icon wirkt weiterhin genau den Zauber des Platzes
-- [ ] PT-ROTA-064 Im Kampf mit Uhr: während die Abklingzeit läuft, liegt der dunkle Uhr-Schatten über dem Icon; ist sie
+- [x] PT-ROTA-064 Im Kampf mit Uhr: während die Abklingzeit läuft, liegt der dunkle Uhr-Schatten über dem Icon; ist sie
   abgelaufen, ist das Icon wieder voll farbig (wie bei der Blizzard-Aktionsleiste)
   - ❌ FAIL 2026-10-03
   - Owner: nichts wird farbig (keine Uhr, Icon bleibt grau).
+  - Ursache: die Uhr war in den Einstellungen aus („clock off“, siehe PT-ROTA-038).
+  - ✅ VERIFIED 2026-10-03
+  - Owner: mit eingeschalteter Uhr ist das Icon dunkel, solange die Uhr läuft, und danach wieder farbig.
 
 ## Feste Cast-Buttons
 
