@@ -211,3 +211,12 @@ function Logic.ReadCooldown(modern, legacy, id, isSecret)
     end
     return result
 end
+
+-- Grey icon? Not learned / not usable: always. With WoW's cooldown clock on the icon (owner wish 2026-10-03) the
+-- clock's dark swipe shows "cooling down" and disappears when the time is up — so the icon stays in colour and is
+-- "lit" again exactly when the cooldown ends, also when the values are secret. Without a clock: grey unless ready.
+function Logic.IconGrey(state, clocked)
+    if state == "NOT_KNOWN" or state == "UNUSABLE" then return true end
+    if clocked then return false end
+    return state ~= "READY" and state ~= "GCD"
+end

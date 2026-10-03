@@ -82,6 +82,8 @@ Regeln und Eintragen von Ergebnissen: [PaTiAdmin/docs/TESTING.md](https://github
   Anzeige „im Kampf nicht lesbar“ sagt (`/prota debug`: „clock SetCooldown“ oder „clock duration object“; Ausgabe melden)
 - [ ] PT-ROTA-039 Einstellungen → „Abklingzeit-Uhr am Icon“ aus: keine Uhr; an: Uhr wieder da; kein Lua-Fehler, Klick auf das
   Icon wirkt weiterhin genau den Zauber des Platzes
+- [ ] PT-ROTA-064 Im Kampf mit Uhr: während die Abklingzeit läuft, liegt der dunkle Uhr-Schatten über dem Icon; ist sie
+  abgelaufen, ist das Icon wieder voll farbig (wie bei der Blizzard-Aktionsleiste)
 
 ## Feste Cast-Buttons
 

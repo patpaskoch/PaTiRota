@@ -83,3 +83,25 @@ describe("Setting cooldownClock", function()
         assert.is_false(Logic.Migrate({ cooldownClock = false }).cooldownClock)
     end)
 end)
+
+describe("Logic.IconGrey (colour when the timer is up)", function()
+    local Logic = wow.loadAddonFile("Logic.lua", {}).Logic
+
+    it("with the clock on the icon: in colour while the clock (its dark swipe) runs and after it ends", function()
+        for _, state in ipairs({ "READY", "GCD", "COOLDOWN", "UNKNOWN" }) do
+            assert.is_false(Logic.IconGrey(state, true), state)
+        end
+    end)
+
+    it("not learned or not usable: always grey", function()
+        assert.is_true(Logic.IconGrey("NOT_KNOWN", true))
+        assert.is_true(Logic.IconGrey("UNUSABLE", true))
+    end)
+
+    it("without a clock: grey unless ready (as before)", function()
+        assert.is_false(Logic.IconGrey("READY", false))
+        assert.is_false(Logic.IconGrey("GCD", false))
+        assert.is_true(Logic.IconGrey("COOLDOWN", false))
+        assert.is_true(Logic.IconGrey("UNKNOWN", false))
+    end)
+end)

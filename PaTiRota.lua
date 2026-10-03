@@ -176,7 +176,7 @@ local function paint()
         button.name:SetText(names[index])
         button.status:SetText(statusText(result))
         button.status:SetTextColor(UI.Color(STATE_COLOR[result.state] or "Text"))
-        button.icon:SetDesaturated(result.state ~= "READY" and result.state ~= "GCD")
+        button.icon:SetDesaturated(Logic.IconGrey(result.state, button.clockPath ~= nil))
         button:SetBackdropBorderColor(UI.Color(isNext and "Accent" or "Border"))
         local tip = { names[index], L.TIP_STATE:format(statusText(result)),
             button.boundSpell and L.TIP_CLICK:format(button.boundSpell) or L.TIP_NO_CLICK }
