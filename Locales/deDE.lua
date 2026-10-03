@@ -6,6 +6,7 @@ ns.Locales.deDE = L
 
 L.GENERAL = "Allgemein"
 L.LOCK_WINDOW = "Fenster sperren"
+L.COOLDOWN_CLOCK = "Abklingzeit-Uhr am Icon"
 L.SCALE = "Größe"
 L.SKILLS = "Skills (Priorität)"
 L.SKILLS_TITLE = "Deine Skill-Reihenfolge"

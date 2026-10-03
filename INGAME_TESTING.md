@@ -78,6 +78,10 @@ Regeln und Eintragen von Ergebnissen: [PaTiAdmin/docs/TESTING.md](https://github
   readable | secret | missing“ (Ausgabe melden); geheime Werte erscheinen nie als Zahl
 - [ ] PT-ROTA-037 Ist der Cooldown im Kampf wirklich geheim: Status „im Kampf nicht lesbar“ (nicht „unklar“), Tooltip
   erklärt es, keine Empfehlung wird erfunden; der Button wirkt trotzdem
+- [ ] PT-ROTA-038 Abklingzeit-Uhr am Icon: nach dem Wirken läuft über dem Skill-Icon die WoW-Uhr ab, auch im Kampf, wenn die
+  Anzeige „im Kampf nicht lesbar“ sagt (`/prota debug`: „clock SetCooldown“ oder „clock duration object“; Ausgabe melden)
+- [ ] PT-ROTA-039 Einstellungen → „Abklingzeit-Uhr am Icon“ aus: keine Uhr; an: Uhr wieder da; kein Lua-Fehler, Klick auf das
+  Icon wirkt weiterhin genau den Zauber des Platzes
 
 ## Feste Cast-Buttons
 

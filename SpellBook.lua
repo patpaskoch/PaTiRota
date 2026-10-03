@@ -133,3 +133,27 @@ function Spells.CooldownApi()
     if C_Spell and C_Spell.GetSpellCooldown then return "C_Spell.GetSpellCooldown" end
     return GetSpellCooldown and "GetSpellCooldown" or "none"
 end
+
+-- The cooldown clock on a skill icon (owner wish 2026-10-03). In combat Forever keeps spell cooldowns secret from
+-- addons (owner-observed: modern API only, values unreadable). A Blizzard Cooldown widget may still show them: the
+-- values go straight from the API into the widget and PaTiRota never reads, compares or prints them. Prefers WoW's
+-- duration object when the client has it, else SetCooldown with the raw values. Returns the path used, or nil (widget
+-- cleared). Never errors; a refused call is noted for /prota debug.
+function Spells.ShowCooldownClock(widget, id)
+    if C_Spell and C_Spell.GetSpellCooldownDuration and widget.SetCooldownFromDurationObject then
+        local ok, duration = pcall(C_Spell.GetSpellCooldownDuration, id)
+        if ok and (isSecret(duration) or duration ~= nil) then
+            if pcall(widget.SetCooldownFromDurationObject, widget, duration) then return "duration object" end
+            Spells.lastError = "cooldown clock: duration object refused"
+        end
+    end
+    if C_Spell and C_Spell.GetSpellCooldown then
+        local ok, info = pcall(C_Spell.GetSpellCooldown, id)
+        if ok and not isSecret(info) and type(info) == "table" then
+            if pcall(widget.SetCooldown, widget, info.startTime, info.duration) then return "SetCooldown" end
+            Spells.lastError = "cooldown clock: SetCooldown refused"
+        end
+    end
+    pcall(widget.Clear, widget)
+    return nil
+end

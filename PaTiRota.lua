@@ -54,6 +54,10 @@ for slot = 1, Logic.SLOTS do
     button.icon = button:CreateTexture(nil, "ARTWORK")
     button.icon:SetSize(ICON, ICON)
     button.icon:SetPoint("LEFT", 3, 0)
+    -- WoW's cooldown clock over the icon (plain child, no secure part; fed by Spells.ShowCooldownClock).
+    button.clock = CreateFrame("Cooldown", nil, button, "CooldownFrameTemplate")
+    button.clock:SetAllPoints(button.icon)
+    button.clock:EnableMouse(false) -- clicks belong to the secure button below
     button.status = button:CreateFontString(nil, "OVERLAY", UI.Fonts.Text)
     button.status:SetPoint("RIGHT", -UI.Spacing.MD, 0)
     button.name = button:CreateFontString(nil, "OVERLAY", UI.Fonts.Text)
@@ -157,6 +161,12 @@ local function paint()
         states[index] = testMode and Logic.TEST_STATES[index] or readState(id, gcd, now)
         names[index] = testMode and L[TEST_SKILLS[index]] or Spells.Name(id) or L.UNKNOWN_SPELL:format(tostring(id))
         button.icon:SetTexture(testMode and TEST_ICON or Spells.Icon(id) or TEST_ICON)
+        if DB.cooldownClock and not testMode then
+            button.clockPath = Spells.ShowCooldownClock(button.clock, id)
+        else
+            button.clock:Clear()
+            button.clockPath = nil
+        end
     end
     local recommended, waiting = Logic.Recommend(states)
     local running = false
@@ -201,6 +211,7 @@ end
 -- Settings modal: Settings.lua ----------------------------------------------------------------
 
 ns.Settings.Init({ db = function() return DB end, window = window, say = say,
+    repaint = function() update() end,
     slotsChanged = function()
         if not applySlots() then say("APPLY_AFTER_COMBAT") end
         update()
@@ -288,9 +299,10 @@ local function printDebug()
     for slot, id in ipairs(DB.slots) do
         if id ~= 0 then
             local result, cooldown = readState(id, gcd, GetTime())
-            print(("  slot %d: %s (%d) · known %s · state %s%s · source %s · button spell %s"):format(slot,
+            print(("  slot %d: %s (%d) · known %s · state %s%s · source %s · clock %s · button spell %s"):format(slot,
                 tostring(Spells.Name(id)), id, tostring(Spells.IsKnown(id)), result.state,
                 result.secret and " (secret)" or "", cooldown.source or "none",
+                buttons[slot].clockPath or (DB.cooldownClock and "none" or "off"),
                 tostring(buttons[slot]:GetAttribute("spell1"))))
             print(("    modern: %s · isActive %s · isOnGCD %s"):format(sourceText(cooldown.diag.modern),
                 hintText(cooldown.active), hintText(cooldown.onGCD)))

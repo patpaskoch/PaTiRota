@@ -6,6 +6,7 @@ ns.Locales.enUS = L
 
 L.GENERAL = "General"
 L.LOCK_WINDOW = "Lock window"
+L.COOLDOWN_CLOCK = "Cooldown clock on icons"
 L.SCALE = "Scale"
 L.SKILLS = "Skills (priority)"
 L.SKILLS_TITLE = "Your skill order"

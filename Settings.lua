@@ -103,6 +103,9 @@ local function build()
     modal:AddControls(UI.CreateCheckbox(modal, "LOCK_WINDOW", {
         get = function() return window:IsLocked() end,
         set = function(locked) window:SetLocked(locked) end,
+    }), UI.CreateCheckbox(modal, "COOLDOWN_CLOCK", { -- display only: no secure change, fine in combat
+        get = function() return DB.cooldownClock end,
+        set = function(on) DB.cooldownClock = on; app.repaint() end,
     }))
     modal:AddSection("SKILLS")
     modal:AddNote("SKILLS_TITLE", "KEYBIND_PATH", "SKILLS_TEXT", 4) -- key bindings: own entry per slot

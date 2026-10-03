@@ -20,6 +20,7 @@ Logic.DEFAULTS = {
     collapsed = false,
     scale = 1,
     language = "auto",
+    cooldownClock = true, -- WoW's cooldown clock on each skill icon (Blizzard widget; also when the values are secret)
 }
 
 local function validSlot(value)
