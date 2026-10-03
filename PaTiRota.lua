@@ -123,14 +123,25 @@ end
 local STATE_COLOR = { READY = "Success", GCD = "Text", COOLDOWN = "TextMuted", UNKNOWN = "TextMuted",
     UNUSABLE = "Warning", NOT_KNOWN = "Danger" }
 
+-- State of one skill, plus the cooldown read (source and readability, for /prota debug).
 local function readState(id, gcd, now)
-    local start, duration = Spells.Cooldown(id)
-    return Logic.CooldownState({ known = Spells.IsKnown(id), start = start, duration = duration,
-        usable = Spells.Usable(id) }, gcd, now, isSecret)
+    local cooldown = Spells.Cooldown(id)
+    return Logic.CooldownState({ known = Spells.IsKnown(id), start = cooldown.start, duration = cooldown.duration,
+        secret = cooldown.secret, usable = Spells.Usable(id) }, gcd, now, isSecret), cooldown
+end
+
+-- The GCD reference as plain numbers (only from a readable source; else nil → Logic falls back to GCD_MAX).
+local function readGcd()
+    local cooldown = Spells.Cooldown(Spells.GCD_SPELL)
+    return { start = cooldown.start, duration = cooldown.duration }, cooldown
 end
 
 local function statusText(result)
     if result.state == "COOLDOWN" then return L.SECONDS:format(Logic.FormatRemaining(result.remaining)) end
+    -- WoW answered but keeps the cooldown secret: say so instead of a vague "unclear" (no API, an error stay "unclear").
+    if result.state == "UNKNOWN" and result.secret then
+        return InCombatLockdown() and L.STATE_SECRET_COMBAT or L.STATE_SECRET
+    end
     return L["STATE_" .. result.state]
 end
 
@@ -138,8 +149,7 @@ end
 local function paint()
     if not DB or DB.collapsed then return false end
     local now = GetTime()
-    local gcdStart, gcdDuration = Spells.Cooldown(Spells.GCD_SPELL)
-    local gcd = { start = gcdStart, duration = gcdDuration }
+    local gcd = readGcd()
     local states, names = {}, {}
     for index, slot in ipairs(shownSlots) do
         local button = buttons[slot]
@@ -158,9 +168,11 @@ local function paint()
         button.status:SetTextColor(UI.Color(STATE_COLOR[result.state] or "Text"))
         button.icon:SetDesaturated(result.state ~= "READY" and result.state ~= "GCD")
         button:SetBackdropBorderColor(UI.Color(isNext and "Accent" or "Border"))
-        button.tooltipLines = { names[index], L.TIP_STATE:format(statusText(result)),
-            button.boundSpell and L.TIP_CLICK:format(button.boundSpell) or L.TIP_NO_CLICK,
-            InCombatLockdown() and L.TIP_COMBAT_FIXED or nil }
+        local tip = { names[index], L.TIP_STATE:format(statusText(result)),
+            button.boundSpell and L.TIP_CLICK:format(button.boundSpell) or L.TIP_NO_CLICK }
+        if result.secret then tip[#tip + 1] = L.TIP_SECRET end
+        if InCombatLockdown() then tip[#tip + 1] = L.TIP_COMBAT_FIXED end
+        button.tooltipLines = tip
         running = running or result.remaining ~= nil
     end
     if recommended then
@@ -244,29 +256,45 @@ local function resetPosition()
     window:Attach(DB, 0, -260)
 end
 
+-- One cooldown source for /prota debug: "api yes · call ok · start readable · duration secret" (never a value).
+local function sourceText(diag)
+    if not diag.api then return "api no" end
+    if diag.ok == false then return "api yes · call failed" end
+    return ("api yes · call ok · start %s · duration %s"):format(tostring(diag.start), tostring(diag.duration))
+end
+
+local function hintText(value) -- a readable boolean hint of the modern info, or "-"
+    if value == nil then return "-" end
+    return tostring(value)
+end
+
 local function printDebug()
     local version, build, _, interface = GetBuildInfo()
-    local gcdStart, gcdDuration = Spells.Cooldown(Spells.GCD_SPELL)
+    local gcd, gcdRead = readGcd()
     print("|cff68caffPaTiRota Debug:|r")
     for _, line in ipairs({
         ("Addon %s %s · PaTiShared UI %s"):format(addonName, addonVersion(), tostring(UI.VERSION)),
         ("WoW %s (build %s, interface %s) · locale %s · UI language %s"):format(tostring(version), tostring(build),
             tostring(interface), GetLocale(), UI.GetLanguage()),
-        ("Cooldown API %s · usable API %s · issecretvalue %s · GCD spell %d readable %s · test mode %s · pending %s")
-            :format(Spells.CooldownApi(), (C_Spell and C_Spell.IsSpellUsable) and "C_Spell" or (IsUsableSpell
-            and "IsUsableSpell" or "none"), issecretvalue and "yes" or "no", Spells.GCD_SPELL,
-            tostring(type(gcdStart) == "number" and type(gcdDuration) == "number" and not isSecret(gcdStart)),
-            testMode and "on" or "off", slotsPending and "yes" or "no"),
+        ("Cooldown APIs: modern %s · legacy %s · usable API %s · issecretvalue %s · test mode %s · pending %s"):format(
+            (C_Spell and C_Spell.GetSpellCooldown) and "yes" or "no", GetSpellCooldown and "yes" or "no",
+            (C_Spell and C_Spell.IsSpellUsable) and "C_Spell" or (IsUsableSpell and "IsUsableSpell" or "none"),
+            issecretvalue and "yes" or "no", testMode and "on" or "off", slotsPending and "yes" or "no"),
+        ("GCD spell %d: source %s · secret %s (unreadable → a cooldown up to %.1f s counts as GCD)"):format(
+            Spells.GCD_SPELL, gcdRead.source or "none", tostring(gcdRead.secret), Logic.GCD_MAX),
         ("Combat %s · last caught API error: %s"):format(InCombatLockdown() and "yes" or "no",
             Spells.lastError or "none"),
     }) do print("  " .. line) end
-    local gcd = { start = gcdStart, duration = gcdDuration }
     for slot, id in ipairs(DB.slots) do
         if id ~= 0 then
-            local result = readState(id, gcd, GetTime())
-            print(("  slot %d: %s (%d) · known %s · state %s · button spell %s"):format(slot,
+            local result, cooldown = readState(id, gcd, GetTime())
+            print(("  slot %d: %s (%d) · known %s · state %s%s · source %s · button spell %s"):format(slot,
                 tostring(Spells.Name(id)), id, tostring(Spells.IsKnown(id)), result.state,
+                result.secret and " (secret)" or "", cooldown.source or "none",
                 tostring(buttons[slot]:GetAttribute("spell1"))))
+            print(("    modern: %s · isActive %s · isOnGCD %s"):format(sourceText(cooldown.diag.modern),
+                hintText(cooldown.active), hintText(cooldown.onGCD)))
+            print("    legacy: " .. sourceText(cooldown.diag.legacy))
         end
     end
 end

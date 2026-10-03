@@ -22,8 +22,13 @@ Regeln und Eintragen von Ergebnissen: [PaTiAdmin/docs/TESTING.md](https://github
 - [ ] PT-ROTA-001 Fresh Install aus dem Release-ZIP: genau ein Ordner `PaTiRota/`, Addon lädt allein
 - [ ] PT-ROTA-002 PaTiRota erscheint in der AddOn-Liste mit Beschreibung
 - [ ] PT-ROTA-003 Login und `/reload` ohne Lua-Fehler
-- [ ] PT-ROTA-004 `/prota debug`: Cooldown-API, Usable-API, GCD-Referenz 61304 lesbar ja/nein und je Platz Zustand
+- [x] PT-ROTA-004 `/prota debug`: Cooldown-API, Usable-API, GCD-Referenz 61304 lesbar ja/nein und je Platz Zustand
   und Button-Zauber (Ausgabe melden)
+  - ✅ VERIFIED 2026-10-03
+  - Owner: `/prota debug` funktioniert. Außerhalb des Kampfes: Cooldown-API C_Spell.GetSpellCooldown, Usable-API
+    C_Spell, GCD 61304 readable false; Blitzschlag (403) und Erdschock (8042) known true, READY, Button-Zauber
+    richtig; kein abgefangener API-Fehler. Im Kampf: Combat yes, beide known true, beide UNKNOWN, Buttons behalten
+    ihren Zauber.
 
 ## Fenster
 
@@ -51,14 +56,35 @@ Regeln und Eintragen von Ergebnissen: [PaTiAdmin/docs/TESTING.md](https://github
 
 - [ ] PT-ROTA-030 Bereiter Skill: „BEREIT“ (grün)
 - [ ] PT-ROTA-031 Nach dem Wirken: Restzeit zählt herunter, danach wieder BEREIT
+  - ❌ FAIL 2026-10-03
+  - Im echten Kampf zeigen die bekannten und wirkbaren Skills Blitzschlag (403) und Erdschock (8042) UNKNOWN /
+    „unklar“; kein Countdown.
+  - 🔧 FIX IMPLEMENTED 2026-10-03
+  - Der Cooldown-Adapter nahm die Tabelle von C_Spell.GetSpellCooldown auch mit unlesbaren Werten und fragte
+    GetSpellCooldown nie; jetzt gewinnt die erste Quelle mit lesbaren Werten, `/prota debug` zeigt Quelle und
+    Lesbarkeit je API. Echt geheime Werte werden nicht umgangen („im Kampf nicht lesbar“).
+  - MANUAL RETEST REQUIRED
 - [ ] PT-ROTA-032 Globaler Cooldown: andere Skills zeigen „GCD“, die Hervorhebung springt nicht durch die Liste
 - [ ] PT-ROTA-033 Hervorgehoben ist immer der höchste bereite Platz; „Nächstes: …“ oben stimmt
+  - ❌ FAIL 2026-10-03
+  - Im echten Kampf: „Nächstes: nichts Lesbares bereit“, obwohl Blitzschlag und Erdschock bekannt und über ihre
+    festen Buttons wirkbar sind.
+  - 🔧 FIX IMPLEMENTED 2026-10-03
+  - Folgt aus dem Fix von PT-ROTA-031 (lesbare Quelle statt UNKNOWN).
+  - MANUAL RETEST REQUIRED
 - [ ] PT-ROTA-034 Alles auf Abklingzeit: „Nächstes: X in n s“ = der Skill, der zuerst fertig wird
 - [ ] PT-ROTA-035 Zu wenig Mana: „nicht nutzbar“, nicht empfohlen
+- [ ] PT-ROTA-036 Im Kampf `/prota debug`: je Platz „source modern | legacy | none“ und je API „call ok, start/duration
+  readable | secret | missing“ (Ausgabe melden); geheime Werte erscheinen nie als Zahl
+- [ ] PT-ROTA-037 Ist der Cooldown im Kampf wirklich geheim: Status „im Kampf nicht lesbar“ (nicht „unklar“), Tooltip
+  erklärt es, keine Empfehlung wird erfunden; der Button wirkt trotzdem
 
 ## Feste Cast-Buttons
 
-- [ ] PT-ROTA-040 Klick auf einen Skill wirkt genau diesen Zauber auf das aktuelle Ziel (ein Klick, ein Zauber)
+- [x] PT-ROTA-040 Klick auf einen Skill wirkt genau diesen Zauber auf das aktuelle Ziel (ein Klick, ein Zauber)
+  - ✅ VERIFIED 2026-10-03
+  - Owner: Blitzschlag-Button wirkt Blitzschlag, Erdschock-Button wirkt Erdschock — auch während die Anzeige
+    „unklar“ zeigt. Ein Klick bleibt die explizite Spieleraktion.
 - [ ] PT-ROTA-041 Klick auf einen nicht hervorgehobenen Skill wirkt genau diesen (nicht den empfohlenen)
 - [ ] PT-ROTA-042 Im Kampf: Buttons behalten ihren Zauber, nur die Hervorhebung wandert; kein automatisches Zaubern
 - [ ] PT-ROTA-043 Slot im Kampf ändern: Hinweis „nach dem Kampf“, Buttons ändern sich erst nach dem Kampf

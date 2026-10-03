@@ -27,6 +27,14 @@ Format: `## [Unreleased]` / `## [x.y.z] - YYYY-MM-DD` with Added, Changed, Fixed
 ### Changed
 - Diagnostics (hardening 2026-10-02): errors that are caught so the addon keeps running are no longer silent — the debug command shows the last caught error per source (no chat spam, nothing saved).
 ### Fixed
+- In combat every known skill showed "unclear" and "Next: nothing ready that can be read" (owner, Forever client
+  2026-10-03, Blitzschlag 403 / Erdschock 8042). The cooldown adapter took C_Spell.GetSpellCooldown's table as soon as
+  one came back — also with unreadable values — and never asked GetSpellCooldown. Now `Logic.ReadCooldown` checks
+  each source for readable numbers (secret values are only detected, never read) and the first readable one wins:
+  modern, then legacy. If WoW keeps the cooldown secret in every source, the state says "unreadable in combat"
+  (tooltip explains; plain "unclear" stays for a missing API) and nothing is recommended from it. `/prota debug`
+  shows per slot the source used and per API: call ok, start/duration readable | secret | missing. The fixed
+  buttons are unchanged (owner-verified: they cast in combat).
 - Hardening: a broken SavedVariables save (not a table, a broken schema or scale) no longer breaks the login; only the broken value is replaced, every valid setting (also `false`) stays, and the migration is idempotent (tests/robustness_spec.lua).
 ### Known Issues
 - Not tested in game yet (`INGAME_TESTING.md`): cooldown API, GCD reference, secure casting, key bindings on hidden

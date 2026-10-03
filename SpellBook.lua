@@ -105,20 +105,17 @@ function Spells.FromCursor()
     return nil
 end
 
--- Cooldown of one spell as raw values (start, duration in seconds; may be secret): modern C_Spell first, then the
--- classic GetSpellCooldown. nil, nil if neither answers. Never errors.
+-- Cooldown of one spell: Logic.ReadCooldown over C_Spell.GetSpellCooldown (modern) and GetSpellCooldown (legacy) —
+-- the first source with two readable numbers wins; secret values are never read, only detected. Never errors.
+local function isSecret(value) return issecretvalue ~= nil and issecretvalue(value) == true end
+
 function Spells.Cooldown(id)
-    if C_Spell and C_Spell.GetSpellCooldown then
-        local ok, info = pcall(C_Spell.GetSpellCooldown, id)
-        if ok and type(info) == "table" then return info.startTime, info.duration end
-        if not ok then Spells.lastError = tostring(info):sub(1, 120) end -- /prota debug only
+    local modern = C_Spell and C_Spell.GetSpellCooldown or nil
+    local result = ns.Logic.ReadCooldown(modern, GetSpellCooldown, id, isSecret)
+    for _, diag in pairs(result.diag) do
+        if diag.ok == false then Spells.lastError = "cooldown call failed" end -- /prota debug only, no value text
     end
-    if GetSpellCooldown then
-        local ok, start, duration = pcall(GetSpellCooldown, id)
-        if ok then return start, duration end
-        Spells.lastError = tostring(start):sub(1, 120)
-    end
-    return nil, nil
+    return result
 end
 
 -- Usable now (mana, form …) as WoW reports it: true / false / nil (unknown). Never errors.

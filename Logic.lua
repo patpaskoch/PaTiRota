@@ -99,7 +99,8 @@ function Logic.CooldownState(raw, gcd, now, isSecret)
     if raw.known ~= true then return { state = "NOT_KNOWN" } end
     local start, duration = raw.start, raw.duration
     if isSecret(start) or isSecret(duration) or type(start) ~= "number" or type(duration) ~= "number" then
-        return { state = "UNKNOWN" }
+        -- secret: WoW answered but keeps the values secret (e.g. in combat) — shown differently from "no API".
+        return { state = "UNKNOWN", secret = raw.secret == true }
     end
     local usable = raw.usable
     if not isSecret(usable) and usable == false then return { state = "UNUSABLE" } end
@@ -153,3 +154,59 @@ Logic.TEST_STATES = {
     { state = "READY" }, { state = "COOLDOWN", remaining = 3.2 }, { state = "COOLDOWN", remaining = 6.8 },
     { state = "READY" },
 }
+
+-- Cooldown sources (owner-observed 2026-10-03: in combat the old adapter turned every known skill UNKNOWN) --------
+-- It took C_Spell.GetSpellCooldown's table as soon as one came back, also with unreadable values, and never asked
+-- GetSpellCooldown. Now every source is checked for readability first and the first readable one wins.
+
+local function readable(value, isSecret)
+    if isSecret(value) then return false end
+    return type(value) == "number"
+end
+
+-- A yes/no hint the client may add to its cooldown info; nil when absent, secret or not a boolean.
+local function hint(value, isSecret)
+    if isSecret(value) or type(value) ~= "boolean" then return nil end
+    return value
+end
+
+-- modern(id) → { startTime, duration, isActive?, isOnGCD? } (C_Spell.GetSpellCooldown) or nil when the API is
+-- missing; legacy(id) → start, duration (GetSpellCooldown) or nil when missing. Both are called through pcall.
+-- Returns { start, duration, source = "modern" | "legacy" | nil, secret, active, onGCD, diag }:
+--   start/duration only from a source whose two values are readable numbers (never a secret value);
+--   secret = a source answered but kept a value secret; active/onGCD = readable booleans of the modern info;
+--   diag = per source { api, ok, start, duration } with "readable" | "secret" | "missing" (for /prota debug).
+function Logic.ReadCooldown(modern, legacy, id, isSecret)
+    local result = { secret = false, diag = { modern = { api = modern ~= nil }, legacy = { api = legacy ~= nil } } }
+    local function judge(diag, start, duration)
+        diag.start = isSecret(start) and "secret" or (readable(start, isSecret) and "readable" or "missing")
+        diag.duration = isSecret(duration) and "secret" or (readable(duration, isSecret) and "readable" or "missing")
+        if diag.start == "secret" or diag.duration == "secret" then result.secret = true end
+        return diag.start == "readable" and diag.duration == "readable"
+    end
+    if modern then
+        local ok, info = pcall(modern, id)
+        local diag = result.diag.modern
+        diag.ok = ok
+        if ok and not isSecret(info) and type(info) == "table" then
+            result.active, result.onGCD = hint(info.isActive, isSecret), hint(info.isOnGCD, isSecret)
+            if judge(diag, info.startTime, info.duration) then
+                result.start, result.duration, result.source = info.startTime, info.duration, "modern"
+                return result
+            end
+        elseif ok then
+            if isSecret(info) then result.secret = true end
+            diag.start, diag.duration = "missing", "missing"
+        end
+    end
+    if legacy then
+        local ok, start, duration = pcall(legacy, id)
+        local diag = result.diag.legacy
+        diag.ok = ok
+        if ok and judge(diag, start, duration) then
+            result.start, result.duration, result.source = start, duration, "legacy"
+            return result
+        end
+    end
+    return result
+end
