@@ -4,6 +4,7 @@ Format: `## [Unreleased]` / `## [x.y.z] - YYYY-MM-DD` with Added, Changed, Fixed
 
 ## [Unreleased] — 0.1.0
 ### Added
+- Themes (owner wish 2026-10-03): Settings → Window → Theme — Default (the PaTi look as before), WoForever (warm brown, gold/bronze) or Dracula (dark, purple/pink/cyan accents). Colours only; layout, secure buttons and behaviour are unchanged. Saved per character in this addon (`theme`, unknown values → Default); Restore Defaults returns to Default. PaTiSuite can switch all PaTi windows at once.
 - New addon PaTiRota (owner wish 2026-10-02): your own skill priority. Up to ten slots (slot 1 = highest priority),
   each with one spell — typed as name or ID, or dragged from the spellbook; Up/Down reorder; a spell is never in two
   slots. Per skill: icon, name and state READY / remaining cooldown / GCD / not usable / not learned / unclear.

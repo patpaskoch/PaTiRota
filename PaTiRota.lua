@@ -194,6 +194,7 @@ ns.Settings.Init({ db = function() return DB end, window = window, say = say,
         update()
     end,
     restored = function()
+        window:ApplyTheme() -- Restore Defaults: theme back to default
         window:ApplyOpacity()
         UI.SetLanguage(DB.language)
         window:SetLocked(DB.locked)
@@ -334,3 +335,4 @@ events:SetScript("OnEvent", function(_, event)
     update()
 end)
 UI.OnLanguageChanged(update)
+UI.OnThemeChanged(update) -- state colours follow the theme (static ones repaint themselves, UI.Paint)
