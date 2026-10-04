@@ -71,10 +71,12 @@ Regeln und Eintragen von Ergebnissen: [PaTiAdmin/docs/TESTING.md](https://github
   - 🔧 FIX IMPLEMENTED 2026-10-04 (Owner-Wunsch: Drag&Drop-Info über, Tasten-Info unter die Liste)
   - ✅ VERIFIED 2026-10-04
   - Owner: beide Hinweise stehen so da (oben Eintippen/Ziehen, unten Tastenbelegung).
-- [ ] PT-ROTA-066 Einstellungen: Hoch/Runter sind Pfeile (^ / v) statt Text; Tooltip „Hoch“ / „Runter“; bei Platz 1
+- [x] PT-ROTA-066 Einstellungen: Hoch/Runter sind Pfeile (^ / v) statt Text; Tooltip „Hoch“ / „Runter“; bei Platz 1
   ist ^ und bei Platz 10 v ausgegraut; Klick verschiebt wie vorher
   - 🔧 FIX IMPLEMENTED 2026-10-04 (Owner-Wunsch: Pfeile statt Text)
   - MANUAL RETEST REQUIRED
+  - ✅ VERIFIED 2026-10-04
+  - Owner: Pfeile da, bei Platz 1 ist ^ und bei Platz 10 v ausgegraut.
 - [x] PT-ROTA-067 Einstellungen: Skill-Icon auf einen anderen Platz ziehen verschiebt den Skill dorthin, die Plätze
   dazwischen rücken nach; Zielplatz leuchtet beim Ziehen; leerer Platz lässt sich nicht ziehen; Fenster folgt; mehr
   Abstand zwischen den Hinweisen und der Liste; kein Lua-Fehler
@@ -116,6 +118,8 @@ Regeln und Eintragen von Ergebnissen: [PaTiAdmin/docs/TESTING.md](https://github
     weiter „nicht lesbar“ — Grenze des Clients (Cooldowns im Kampf geheim, siehe Known Issues), kein Fix möglich.
     Noch offen: Rahmen springt außerhalb des Kampfs auf den nächsten bereiten Skill und zurück.
   - Owner 2026-10-04: im Kampf ist der Rahmen weg (erwartet: im Kampf nichts lesbar, also keine Empfehlung).
+  - Owner 2026-10-04: mit Erdschock nicht prüfbar (Abklingzeit zu kurz, um vorher aus dem Kampf zu sein). Nächster
+    Versuch: ein außerhalb des Kampfs wirkbarer Zauber mit Abklingzeit auf Platz 1 (z. B. ein Totem).
 - [ ] PT-ROTA-034 Alles auf Abklingzeit: „Nächstes: X in n s“ = der Skill, der zuerst fertig wird
 - [ ] PT-ROTA-035 Zu wenig Mana: „nicht nutzbar“, nicht empfohlen
 - [ ] PT-ROTA-036 Im Kampf `/prota debug`: je Platz „source modern | legacy | none“ und je API „call ok, start/duration
