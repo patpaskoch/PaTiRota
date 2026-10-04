@@ -52,7 +52,9 @@ Regeln und Eintragen von Ergebnissen: [PaTiAdmin/docs/TESTING.md](https://github
 - [x] PT-ROTA-022 Zauber aus dem Zauberbuch auf einen Platz ziehen: wird übernommen
   - ✅ VERIFIED 2026-10-04
   - Owner: Ziehen aus dem Zauberbuch funktioniert auch.
-- [ ] PT-ROTA-023 Unbekannter Name: Chat-Hinweis „kein Zauber … gefunden“, Platz unverändert
+- [x] PT-ROTA-023 Unbekannter Name: Chat-Hinweis „kein Zauber … gefunden“, Platz unverändert
+  - ✅ VERIFIED 2026-10-04
+  - Owner: bei Unsinn meldet es, dass der Zauber nicht gefunden wird.
 - [x] PT-ROTA-024 Leer + Enter leert den Platz; Hoch/Runter ändern die Reihenfolge, das Fenster folgt
   - ✅ VERIFIED 2026-10-04
   - Owner: Hoch/Runter funktionieren; Platz leeren (leer + Enter) funktioniert.
@@ -72,6 +74,11 @@ Regeln und Eintragen von Ergebnissen: [PaTiAdmin/docs/TESTING.md](https://github
 - [ ] PT-ROTA-066 Einstellungen: Hoch/Runter sind Pfeile (^ / v) statt Text; Tooltip „Hoch“ / „Runter“; bei Platz 1
   ist ^ und bei Platz 10 v ausgegraut; Klick verschiebt wie vorher
   - 🔧 FIX IMPLEMENTED 2026-10-04 (Owner-Wunsch: Pfeile statt Text)
+  - MANUAL RETEST REQUIRED
+- [ ] PT-ROTA-067 Einstellungen: Skill-Icon auf einen anderen Platz ziehen verschiebt den Skill dorthin, die Plätze
+  dazwischen rücken nach; Zielplatz leuchtet beim Ziehen; leerer Platz lässt sich nicht ziehen; Fenster folgt; mehr
+  Abstand zwischen den Hinweisen und der Liste; kein Lua-Fehler
+  - 🔧 FIX IMPLEMENTED 2026-10-04 (Owner-Wunsch: Drag & Drop zum Anordnen, Abstand)
   - MANUAL RETEST REQUIRED
 
 ## Cooldowns / Empfehlung

@@ -77,6 +77,14 @@ function Logic.Move(slots, index, delta)
     return true
 end
 
+-- Moves the spell in slot `from` to slot `to` (drag and drop); the slots in between shift by one, so the order of
+-- all others stays. Returns true if it moved.
+function Logic.MoveTo(slots, from, to)
+    if from == to or not slots[from] or not slots[to] then return false end
+    table.insert(slots, to, table.remove(slots, from))
+    return true
+end
+
 -- The slots with a spell, in priority order: { { slot, id } }.
 function Logic.Filled(slots)
     local list = {}

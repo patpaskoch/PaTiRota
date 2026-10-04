@@ -73,13 +73,65 @@ local function moveButton(parent, key, up, onClick)
     return button
 end
 
+-- Reorder by dragging a slot's icon onto another slot (owner wish 2026-10-04). Plain frames, settings only: the secure
+-- buttons follow through app.slotsChanged like any other slot change. The row under the mouse is lit while dragging.
+local dragFrom
+
+local function rowUnderMouse()
+    for slot, row in ipairs(slotRows) do
+        if row:IsMouseOver() then return slot end
+    end
+    return nil
+end
+
+local function showDropTarget()
+    local target = rowUnderMouse()
+    for slot, row in ipairs(slotRows) do row.drop:SetShown(slot == target and slot ~= dragFrom) end
+end
+
+local function endDrag(drop)
+    if not dragFrom then return end
+    local from, target = dragFrom, drop and rowUnderMouse()
+    dragFrom = nil
+    for _, row in ipairs(slotRows) do
+        row.handle:SetScript("OnUpdate", nil)
+        row.drop:Hide()
+        row:SetAlpha(1)
+    end
+    if target and Logic.MoveTo(app.db().slots, from, target) then
+        refreshSlots()
+        app.slotsChanged()
+    end
+end
+
+local function dragHandle(row, slot)
+    local handle = CreateFrame("Button", nil, row)
+    handle:SetSize(ICON, ICON)
+    handle:SetPoint("LEFT")
+    handle:RegisterForDrag("LeftButton")
+    handle:SetScript("OnDragStart", function(self)
+        if app.db().slots[slot] == 0 then return end -- an empty slot has nothing to move
+        dragFrom = slot
+        row:SetAlpha(0.5)
+        self:SetScript("OnUpdate", showDropTarget) -- only while dragging; removed in endDrag
+    end)
+    handle:SetScript("OnDragStop", function() endDrag(true) end)
+    UI.SetTooltip(handle, function() return app.db().slots[slot] ~= 0 and L.DRAG_TIP or nil end)
+    return handle
+end
+
 -- One slot row: [icon][spell name or ID ……][^][v]. Enter applies, Escape restores, empty + Enter clears.
 local function slotRow(parent, slot)
     local row = CreateFrame("Frame", nil, parent)
     row:SetSize(ICON + UI.Spacing.SM + EDIT_WIDTH + 2 * (MOVE_WIDTH + UI.Spacing.XS), UI.Sizes.ButtonHeight)
-    row.icon = row:CreateTexture(nil, "ARTWORK")
-    row.icon:SetSize(ICON, ICON)
-    row.icon:SetPoint("LEFT")
+    row.drop = row:CreateTexture(nil, "BACKGROUND")
+    row.drop:SetPoint("TOPLEFT", -UI.Spacing.XS, UI.Spacing.XS)
+    row.drop:SetPoint("BOTTOMRIGHT", UI.Spacing.XS, -UI.Spacing.XS)
+    UI.Paint(row.drop, "SetColorTexture", "Accent", 0.25)
+    row.drop:Hide()
+    row.handle = dragHandle(row, slot)
+    row.icon = row.handle:CreateTexture(nil, "ARTWORK")
+    row.icon:SetAllPoints()
     local edit = CreateFrame("EditBox", nil, row, "BackdropTemplate")
     edit:SetSize(EDIT_WIDTH, UI.Sizes.ButtonHeight)
     edit:SetPoint("LEFT", row.icon, "RIGHT", UI.Spacing.SM, 0)
@@ -129,11 +181,13 @@ local function build()
         set = function(on) DB.cooldownClock = on; app.repaint() end,
     }))
     modal:AddSection("SKILLS")
-    modal:AddNote("SKILLS_TITLE", nil, "SKILLS_TEXT", 3) -- above the list: how to fill a slot
+    modal:AddNote("SKILLS_TITLE", nil, "SKILLS_TEXT", 4) -- above the list: how to fill a slot
+    modal.cursor = modal.cursor - UI.Spacing.MD -- breathing room between the note and the list (owner wish 2026-10-04)
     for slot = 1, Logic.SLOTS do
         slotRows[slot] = slotRow(modal, slot)
         modal:AddRow(function() return L.SLOT:format(slot) end, slotRows[slot])
     end
+    modal.cursor = modal.cursor - UI.Spacing.MD
     -- Below the list (owner wish 2026-10-04): key bindings, one entry per slot.
     modal:AddNote("KEYBIND_TITLE", "KEYBIND_PATH", "KEYBIND_TEXT", 2)
     UI.AddWindowSettings(modal, window) -- panel opacity (PaTiShared)
@@ -142,6 +196,7 @@ local function build()
         app.restored()
     end)
     modal:HookScript("OnShow", refreshSlots)
+    modal:HookScript("OnHide", function() endDrag(false) end) -- closed mid-drag: nothing moves
 end
 
 function Settings.Open()
