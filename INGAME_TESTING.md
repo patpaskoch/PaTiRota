@@ -120,6 +120,10 @@ Regeln und Eintragen von Ergebnissen: [PaTiAdmin/docs/TESTING.md](https://github
   - Owner 2026-10-04: im Kampf ist der Rahmen weg (erwartet: im Kampf nichts lesbar, also keine Empfehlung).
   - Owner 2026-10-04: mit Erdschock nicht prüfbar (Abklingzeit zu kurz, um vorher aus dem Kampf zu sein). Nächster
     Versuch: ein außerhalb des Kampfs wirkbarer Zauber mit Abklingzeit auf Platz 1 (z. B. ein Totem).
+  - ❌ FAIL 2026-10-04
+  - Owner: Totem gestellt (Platz 1), weggelaufen — der blaue Rahmen blieb auf dem Totem, sprang nicht weiter.
+    Bleibt offen (Owner-Wunsch); Code-Freeze für die Cooldown-Erkennung, nächster Schritt erst mit `/prota debug`
+    während der Abklingzeit.
 - [ ] PT-ROTA-034 Alles auf Abklingzeit: „Nächstes: X in n s“ = der Skill, der zuerst fertig wird
 - [ ] PT-ROTA-035 Zu wenig Mana: „nicht nutzbar“, nicht empfohlen
 - [ ] PT-ROTA-036 Im Kampf `/prota debug`: je Platz „source modern | legacy | none“ und je API „call ok, start/duration
