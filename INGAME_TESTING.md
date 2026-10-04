@@ -43,14 +43,24 @@ Regeln und Eintragen von Ergebnissen: [PaTiAdmin/docs/TESTING.md](https://github
 
 ## Einstellungen / Slots
 
-- [ ] PT-ROTA-020 Zaubername eintippen + Enter: Platz zeigt Icon und Namen, Fenster zeigt den Skill
-- [ ] PT-ROTA-021 Zauber-ID eintippen + Enter funktioniert ebenso
-- [ ] PT-ROTA-022 Zauber aus dem Zauberbuch auf einen Platz ziehen: wird übernommen
+- [x] PT-ROTA-020 Zaubername eintippen + Enter: Platz zeigt Icon und Namen, Fenster zeigt den Skill
+  - ✅ VERIFIED 2026-10-04
+  - Owner: Zaubername + Enter funktioniert.
+- [x] PT-ROTA-021 Zauber-ID eintippen + Enter funktioniert ebenso
+  - ✅ VERIFIED 2026-10-04
+  - Owner: Zauber-ID + Enter geht auch.
+- [x] PT-ROTA-022 Zauber aus dem Zauberbuch auf einen Platz ziehen: wird übernommen
+  - ✅ VERIFIED 2026-10-04
+  - Owner: Ziehen aus dem Zauberbuch funktioniert auch.
 - [ ] PT-ROTA-023 Unbekannter Name: Chat-Hinweis „kein Zauber … gefunden“, Platz unverändert
 - [ ] PT-ROTA-024 Leer + Enter leert den Platz; Hoch/Runter ändern die Reihenfolge, das Fenster folgt
 - [ ] PT-ROTA-025 Derselbe Zauber auf einem zweiten Platz: die Plätze tauschen, nie doppelt
 - [ ] PT-ROTA-026 Slots bleiben nach `/reload` und Relog; „Standard wiederherstellen“ behält die Slots
 - [ ] PT-ROTA-027 Nicht gelernter Zauber im Slot: „nicht gelernt“, nicht hervorgehoben, Klick wirkt nichts
+- [ ] PT-ROTA-065 Einstellungen: Hinweis „Eintippen oder aus dem Zauberbuch ziehen“ steht über der Skill-Liste, Hinweis
+  zur Tastenbelegung (Pfad ESC > Tastaturbelegung > PaTiRota) darunter; nichts abgeschnitten oder überlappt (deDE)
+  - 🔧 FIX IMPLEMENTED 2026-10-04 (Owner-Wunsch: Drag&Drop-Info über, Tasten-Info unter die Liste)
+  - MANUAL RETEST REQUIRED
 
 ## Cooldowns / Empfehlung
 

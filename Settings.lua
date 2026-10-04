@@ -108,11 +108,13 @@ local function build()
         set = function(on) DB.cooldownClock = on; app.repaint() end,
     }))
     modal:AddSection("SKILLS")
-    modal:AddNote("SKILLS_TITLE", "KEYBIND_PATH", "SKILLS_TEXT", 4) -- key bindings: own entry per slot
+    modal:AddNote("SKILLS_TITLE", nil, "SKILLS_TEXT", 3) -- above the list: how to fill a slot
     for slot = 1, Logic.SLOTS do
         slotRows[slot] = slotRow(modal, slot)
         modal:AddRow(function() return L.SLOT:format(slot) end, slotRows[slot])
     end
+    -- Below the list (owner wish 2026-10-04): key bindings, one entry per slot.
+    modal:AddNote("KEYBIND_TITLE", "KEYBIND_PATH", "KEYBIND_TEXT", 2)
     UI.AddWindowSettings(modal, window) -- panel opacity (PaTiShared)
     modal:Finish(function()
         Logic.RestoreDefaults(DB)
