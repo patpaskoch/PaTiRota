@@ -88,6 +88,7 @@ Regeln und Eintragen von Ergebnissen: [PaTiAdmin/docs/TESTING.md](https://github
   Fenster; genug Abstand zwischen den Hinweisen und der Liste
   - 🔧 FIX IMPLEMENTED 2026-10-04 (Owner-Wunsch: eigenes Symbol zum Ziehen)
   - MANUAL RETEST REQUIRED
+  - Owner 2026-10-04: „Drag & Drop funktioniert sehr gut“ — noch offen, ob mit dem Griff ≡ und ob der Abstand passt.
 
 ## Cooldowns / Empfehlung
 
@@ -109,6 +110,9 @@ Regeln und Eintragen von Ergebnissen: [PaTiAdmin/docs/TESTING.md](https://github
   - 🔧 FIX IMPLEMENTED 2026-10-03
   - Folgt aus dem Fix von PT-ROTA-031 (lesbare Quelle statt UNKNOWN).
   - MANUAL RETEST REQUIRED
+  - Owner 2026-10-04: außerhalb des Kampfs hat der oberste Skill einen blauen Rahmen (Akzent). Im Kampf steht
+    weiter „nicht lesbar“ — Grenze des Clients (Cooldowns im Kampf geheim, siehe Known Issues), kein Fix möglich.
+    Noch offen: Rahmen springt außerhalb des Kampfs auf den nächsten bereiten Skill und zurück.
 - [ ] PT-ROTA-034 Alles auf Abklingzeit: „Nächstes: X in n s“ = der Skill, der zuerst fertig wird
 - [ ] PT-ROTA-035 Zu wenig Mana: „nicht nutzbar“, nicht empfohlen
 - [ ] PT-ROTA-036 Im Kampf `/prota debug`: je Platz „source modern | legacy | none“ und je API „call ok, start/duration
