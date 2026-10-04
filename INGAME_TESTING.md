@@ -53,13 +53,25 @@ Regeln und Eintragen von Ergebnissen: [PaTiAdmin/docs/TESTING.md](https://github
   - ✅ VERIFIED 2026-10-04
   - Owner: Ziehen aus dem Zauberbuch funktioniert auch.
 - [ ] PT-ROTA-023 Unbekannter Name: Chat-Hinweis „kein Zauber … gefunden“, Platz unverändert
-- [ ] PT-ROTA-024 Leer + Enter leert den Platz; Hoch/Runter ändern die Reihenfolge, das Fenster folgt
-- [ ] PT-ROTA-025 Derselbe Zauber auf einem zweiten Platz: die Plätze tauschen, nie doppelt
-- [ ] PT-ROTA-026 Slots bleiben nach `/reload` und Relog; „Standard wiederherstellen“ behält die Slots
+- [x] PT-ROTA-024 Leer + Enter leert den Platz; Hoch/Runter ändern die Reihenfolge, das Fenster folgt
+  - ✅ VERIFIED 2026-10-04
+  - Owner: Hoch/Runter funktionieren; Platz leeren (leer + Enter) funktioniert.
+  - Owner-Wunsch: Pfeile statt Text bei Hoch/Runter → PT-ROTA-066
+- [x] PT-ROTA-025 Derselbe Zauber auf einem zweiten Platz: die Plätze tauschen, nie doppelt
+  - ✅ VERIFIED 2026-10-04
+  - Owner: derselbe Zauber auf einem zweiten Platz: die Plätze tauschen.
+- [x] PT-ROTA-026 Slots bleiben nach `/reload` und Relog; „Standard wiederherstellen“ behält die Slots
+  - ✅ VERIFIED 2026-10-04
+  - Owner: Plätze bleiben nach `/reload`; „Standard wiederherstellen“ behält die Plätze.
 - [ ] PT-ROTA-027 Nicht gelernter Zauber im Slot: „nicht gelernt“, nicht hervorgehoben, Klick wirkt nichts
-- [ ] PT-ROTA-065 Einstellungen: Hinweis „Eintippen oder aus dem Zauberbuch ziehen“ steht über der Skill-Liste, Hinweis
+- [x] PT-ROTA-065 Einstellungen: Hinweis „Eintippen oder aus dem Zauberbuch ziehen“ steht über der Skill-Liste, Hinweis
   zur Tastenbelegung (Pfad ESC > Tastaturbelegung > PaTiRota) darunter; nichts abgeschnitten oder überlappt (deDE)
   - 🔧 FIX IMPLEMENTED 2026-10-04 (Owner-Wunsch: Drag&Drop-Info über, Tasten-Info unter die Liste)
+  - ✅ VERIFIED 2026-10-04
+  - Owner: beide Hinweise stehen so da (oben Eintippen/Ziehen, unten Tastenbelegung).
+- [ ] PT-ROTA-066 Einstellungen: Hoch/Runter sind Pfeile (^ / v) statt Text; Tooltip „Hoch“ / „Runter“; bei Platz 1
+  ist ^ und bei Platz 10 v ausgegraut; Klick verschiebt wie vorher
+  - 🔧 FIX IMPLEMENTED 2026-10-04 (Owner-Wunsch: Pfeile statt Text)
   - MANUAL RETEST REQUIRED
 
 ## Cooldowns / Empfehlung

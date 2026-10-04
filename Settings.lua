@@ -13,7 +13,8 @@ function Settings.Init(callbacks) app = callbacks end
 local modal
 local slotRows = {}
 
-local EDIT_WIDTH, MOVE_WIDTH, ICON = 170, 56, 18
+local EDIT_WIDTH, MOVE_WIDTH, ICON = 170, 28, 18
+local CHEVRON = 6 -- arm length of the up/down chevron (same drawing as the PaTiShared dropdown arrow)
 
 local function slotText(id)
     if id == 0 then return "" end
@@ -52,7 +53,27 @@ local function receiveDrag(slot)
     setSlot(slot, id)
 end
 
--- One slot row: [icon][spell name or ID ……][Up][Down]. Enter applies, Escape restores, empty + Enter clears.
+-- Up/Down as a chevron instead of text (owner wish 2026-10-04); the word stays in the tooltip. Muted while disabled
+-- (slot 1 cannot go up, slot 10 not down).
+local function moveButton(parent, key, up, onClick)
+    local button = UI.CreateButton(parent, nil, MOVE_WIDTH, onClick)
+    local arrow = CreateFrame("Frame", nil, button)
+    arrow:SetSize(12, 12)
+    arrow:SetPoint("CENTER")
+    local sign = up and 1 or -1
+    local lines = { UI.Line(arrow, CHEVRON, 45 * sign, -2, 0), UI.Line(arrow, CHEVRON, -45 * sign, 2, 0) }
+    local function paint()
+        for _, line in ipairs(lines) do line:SetColorTexture(UI.Color(button:IsEnabled() and "Text" or "TextMuted")) end
+    end
+    button:HookScript("OnEnable", paint)
+    button:HookScript("OnDisable", paint)
+    UI.OnThemeChanged(paint)
+    paint()
+    UI.SetTooltip(button, key)
+    return button
+end
+
+-- One slot row: [icon][spell name or ID ……][^][v]. Enter applies, Escape restores, empty + Enter clears.
 local function slotRow(parent, slot)
     local row = CreateFrame("Frame", nil, parent)
     row:SetSize(ICON + UI.Spacing.SM + EDIT_WIDTH + 2 * (MOVE_WIDTH + UI.Spacing.XS), UI.Sizes.ButtonHeight)
@@ -75,9 +96,9 @@ local function slotRow(parent, slot)
     edit:SetScript("OnReceiveDrag", function() receiveDrag(slot) end)
     edit:SetScript("OnMouseDown", function() if GetCursorInfo and GetCursorInfo() == "spell" then receiveDrag(slot) end end)
     row.edit = edit
-    row.down = UI.CreateButton(row, "MOVE_DOWN", MOVE_WIDTH, function() move(slot, 1) end)
+    row.down = moveButton(row, "MOVE_DOWN", false, function() move(slot, 1) end)
     row.down:SetPoint("RIGHT")
-    row.up = UI.CreateButton(row, "MOVE_UP", MOVE_WIDTH, function() move(slot, -1) end)
+    row.up = moveButton(row, "MOVE_UP", true, function() move(slot, -1) end)
     row.up:SetPoint("RIGHT", row.down, "LEFT", -UI.Spacing.XS, 0)
     UI.SetTooltip(edit, function() return { L.SLOT:format(slot), L.SLOT_TIP } end)
     return row

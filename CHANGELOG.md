@@ -32,6 +32,7 @@ Format: `## [Unreleased]` / `## [x.y.z] - YYYY-MM-DD` with Added, Changed, Fixed
 - Icon (owner-provided 2026-10-02, PaTiSuite style: rotation arrows around a skill list, blue and gold):
   `Media/icon.tga` for the AddOns list, platform images in `assets/`.
 ### Changed
+- Settings → Skills: Up/Down are chevron buttons (^ / v, word in the tooltip) instead of text (owner wish 2026-10-04).
 - Settings → Skills (owner wish 2026-10-04): the note on typing / dragging a spell into a slot stays above the slot
   list; the key binding note (ESC > Key Bindings > PaTiRota) now has its own box below the list.
 - Diagnostics (hardening 2026-10-02): errors that are caught so the addon keeps running are no longer silent — the debug command shows the last caught error per source (no chat spam, nothing saved).
