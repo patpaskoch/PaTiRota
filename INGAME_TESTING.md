@@ -83,12 +83,14 @@ Regeln und Eintragen von Ergebnissen: [PaTiAdmin/docs/TESTING.md](https://github
   - ✅ VERIFIED 2026-10-04
   - Owner: Drag & Drop geht. Wunsch: ein eigenes Symbol zum Ziehen → PT-ROTA-068 (der Abstand ist noch nicht
     bestätigt und wird in PT-ROTA-068 mitgeprüft)
-- [ ] PT-ROTA-068 Einstellungen: am Ende jeder Platz-Zeile (nach den Pfeilen) ein Griff ≡; Hover hellt ihn auf, Tooltip
+- [x] PT-ROTA-068 Einstellungen: am Ende jeder Platz-Zeile (nach den Pfeilen) ein Griff ≡; Hover hellt ihn auf, Tooltip
   „Auf einen anderen Platz ziehen …“; Griff ziehen verschiebt wie das Icon; nichts abgeschnitten, Zeilen passen ins
   Fenster; genug Abstand zwischen den Hinweisen und der Liste
   - 🔧 FIX IMPLEMENTED 2026-10-04 (Owner-Wunsch: eigenes Symbol zum Ziehen)
   - MANUAL RETEST REQUIRED
   - Owner 2026-10-04: „Drag & Drop funktioniert sehr gut“ — noch offen, ob mit dem Griff ≡ und ob der Abstand passt.
+  - ✅ VERIFIED 2026-10-04
+  - Owner: Ziehen geht mit beidem (Griff und Icon), der Abstand passt jetzt auch.
 
 ## Cooldowns / Empfehlung
 
@@ -113,6 +115,7 @@ Regeln und Eintragen von Ergebnissen: [PaTiAdmin/docs/TESTING.md](https://github
   - Owner 2026-10-04: außerhalb des Kampfs hat der oberste Skill einen blauen Rahmen (Akzent). Im Kampf steht
     weiter „nicht lesbar“ — Grenze des Clients (Cooldowns im Kampf geheim, siehe Known Issues), kein Fix möglich.
     Noch offen: Rahmen springt außerhalb des Kampfs auf den nächsten bereiten Skill und zurück.
+  - Owner 2026-10-04: im Kampf ist der Rahmen weg (erwartet: im Kampf nichts lesbar, also keine Empfehlung).
 - [ ] PT-ROTA-034 Alles auf Abklingzeit: „Nächstes: X in n s“ = der Skill, der zuerst fertig wird
 - [ ] PT-ROTA-035 Zu wenig Mana: „nicht nutzbar“, nicht empfohlen
 - [ ] PT-ROTA-036 Im Kampf `/prota debug`: je Platz „source modern | legacy | none“ und je API „call ok, start/duration
