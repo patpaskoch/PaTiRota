@@ -15,6 +15,7 @@ local slotRows = {}
 
 local EDIT_WIDTH, MOVE_WIDTH, ICON = 170, 28, 18
 local CHEVRON = 6 -- arm length of the up/down chevron (same drawing as the PaTiShared dropdown arrow)
+local GRIP, GRIP_LINES, GRIP_GAP = 16, 3, 4 -- drag grip: three short lines, 4 px apart
 
 local function slotText(id)
     if id == 0 then return "" end
@@ -95,6 +96,7 @@ local function endDrag(drop)
     dragFrom = nil
     for _, row in ipairs(slotRows) do
         row.handle:SetScript("OnUpdate", nil)
+        row.grip:SetScript("OnUpdate", nil)
         row.drop:Hide()
         row:SetAlpha(1)
     end
@@ -104,10 +106,8 @@ local function endDrag(drop)
     end
 end
 
-local function dragHandle(row, slot)
-    local handle = CreateFrame("Button", nil, row)
-    handle:SetSize(ICON, ICON)
-    handle:SetPoint("LEFT")
+-- Makes `handle` start a drag of this slot (the icon and the grip both do).
+local function makeDraggable(handle, row, slot)
     handle:RegisterForDrag("LeftButton")
     handle:SetScript("OnDragStart", function(self)
         if app.db().slots[slot] == 0 then return end -- an empty slot has nothing to move
@@ -120,16 +120,38 @@ local function dragHandle(row, slot)
     return handle
 end
 
--- One slot row: [icon][spell name or ID ……][^][v]. Enter applies, Escape restores, empty + Enter clears.
+-- The grip at the end of a row (owner wish 2026-10-04: an own symbol for dragging): ≡ drawn from lines.
+local function gripButton(row, slot)
+    local grip = CreateFrame("Button", nil, row)
+    grip:SetSize(GRIP, UI.Sizes.ButtonHeight)
+    local lines = {}
+    for index = 1, GRIP_LINES do
+        lines[index] = UI.Line(grip, GRIP - 4, 0, 0, (index - (GRIP_LINES + 1) / 2) * GRIP_GAP)
+    end
+    local function paint(hovered)
+        for _, line in ipairs(lines) do line:SetColorTexture(UI.Color(hovered and "Text" or "TextMuted")) end
+    end
+    grip:SetScript("OnEnter", function() paint(true) end)
+    grip:SetScript("OnLeave", function() paint(false) end)
+    UI.OnThemeChanged(function() paint(grip:IsMouseOver()) end)
+    paint(false)
+    return makeDraggable(grip, row, slot)
+end
+
+-- One slot row: [icon][spell name or ID ……][^][v][≡]. Enter applies, Escape restores, empty + Enter clears.
 local function slotRow(parent, slot)
     local row = CreateFrame("Frame", nil, parent)
-    row:SetSize(ICON + UI.Spacing.SM + EDIT_WIDTH + 2 * (MOVE_WIDTH + UI.Spacing.XS), UI.Sizes.ButtonHeight)
+    row:SetSize(ICON + UI.Spacing.SM + EDIT_WIDTH + 2 * (MOVE_WIDTH + UI.Spacing.XS) + UI.Spacing.XS + GRIP,
+        UI.Sizes.ButtonHeight)
     row.drop = row:CreateTexture(nil, "BACKGROUND")
     row.drop:SetPoint("TOPLEFT", -UI.Spacing.XS, UI.Spacing.XS)
     row.drop:SetPoint("BOTTOMRIGHT", UI.Spacing.XS, -UI.Spacing.XS)
     UI.Paint(row.drop, "SetColorTexture", "Accent", 0.25)
     row.drop:Hide()
-    row.handle = dragHandle(row, slot)
+    row.handle = CreateFrame("Button", nil, row)
+    row.handle:SetSize(ICON, ICON)
+    row.handle:SetPoint("LEFT")
+    makeDraggable(row.handle, row, slot)
     row.icon = row.handle:CreateTexture(nil, "ARTWORK")
     row.icon:SetAllPoints()
     local edit = CreateFrame("EditBox", nil, row, "BackdropTemplate")
@@ -149,7 +171,9 @@ local function slotRow(parent, slot)
     edit:SetScript("OnMouseDown", function() if GetCursorInfo and GetCursorInfo() == "spell" then receiveDrag(slot) end end)
     row.edit = edit
     row.down = moveButton(row, "MOVE_DOWN", false, function() move(slot, 1) end)
-    row.down:SetPoint("RIGHT")
+    row.grip = gripButton(row, slot)
+    row.grip:SetPoint("RIGHT")
+    row.down:SetPoint("RIGHT", row.grip, "LEFT", -UI.Spacing.XS, 0)
     row.up = moveButton(row, "MOVE_UP", true, function() move(slot, -1) end)
     row.up:SetPoint("RIGHT", row.down, "LEFT", -UI.Spacing.XS, 0)
     UI.SetTooltip(edit, function() return { L.SLOT:format(slot), L.SLOT_TIP } end)

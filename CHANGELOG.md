@@ -32,6 +32,8 @@ Format: `## [Unreleased]` / `## [x.y.z] - YYYY-MM-DD` with Added, Changed, Fixed
 - Icon (owner-provided 2026-10-02, PaTiSuite style: rotation arrows around a skill list, blue and gold):
   `Media/icon.tga` for the AddOns list, platform images in `assets/`.
 ### Changed
+- Settings → Skills: a drag grip (≡) at the end of each slot row, after the arrows (owner wish 2026-10-04); the icon
+  stays draggable too.
 - Settings → Skills: reorder by dragging a skill icon onto another slot (the slots in between shift; `Logic.MoveTo`),
   more space between the notes and the slot list (owner wish 2026-10-04).
 - Settings → Skills: Up/Down are chevron buttons (^ / v, word in the tooltip) instead of text (owner wish 2026-10-04).

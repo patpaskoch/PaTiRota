@@ -75,10 +75,18 @@ Regeln und Eintragen von Ergebnissen: [PaTiAdmin/docs/TESTING.md](https://github
   ist ^ und bei Platz 10 v ausgegraut; Klick verschiebt wie vorher
   - 🔧 FIX IMPLEMENTED 2026-10-04 (Owner-Wunsch: Pfeile statt Text)
   - MANUAL RETEST REQUIRED
-- [ ] PT-ROTA-067 Einstellungen: Skill-Icon auf einen anderen Platz ziehen verschiebt den Skill dorthin, die Plätze
+- [x] PT-ROTA-067 Einstellungen: Skill-Icon auf einen anderen Platz ziehen verschiebt den Skill dorthin, die Plätze
   dazwischen rücken nach; Zielplatz leuchtet beim Ziehen; leerer Platz lässt sich nicht ziehen; Fenster folgt; mehr
   Abstand zwischen den Hinweisen und der Liste; kein Lua-Fehler
   - 🔧 FIX IMPLEMENTED 2026-10-04 (Owner-Wunsch: Drag & Drop zum Anordnen, Abstand)
+  - MANUAL RETEST REQUIRED
+  - ✅ VERIFIED 2026-10-04
+  - Owner: Drag & Drop geht. Wunsch: ein eigenes Symbol zum Ziehen → PT-ROTA-068 (der Abstand ist noch nicht
+    bestätigt und wird in PT-ROTA-068 mitgeprüft)
+- [ ] PT-ROTA-068 Einstellungen: am Ende jeder Platz-Zeile (nach den Pfeilen) ein Griff ≡; Hover hellt ihn auf, Tooltip
+  „Auf einen anderen Platz ziehen …“; Griff ziehen verschiebt wie das Icon; nichts abgeschnitten, Zeilen passen ins
+  Fenster; genug Abstand zwischen den Hinweisen und der Liste
+  - 🔧 FIX IMPLEMENTED 2026-10-04 (Owner-Wunsch: eigenes Symbol zum Ziehen)
   - MANUAL RETEST REQUIRED
 
 ## Cooldowns / Empfehlung
