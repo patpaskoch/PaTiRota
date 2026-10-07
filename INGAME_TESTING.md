@@ -98,6 +98,9 @@ Regeln und Eintragen von Ergebnissen: [PaTiAdmin/docs/TESTING.md](https://github
   vorher; Tastenbelegungs-Hinweis weiter unter der Liste
   - 🔧 FIX IMPLEMENTED 2026-10-07 (Owner-Wunsch: Liste und Erklärung in allen Addons gleich)
   - MANUAL RETEST REQUIRED
+- [ ] PT-ROTA-070 Einstellungen → Skills: Pfeil-Knopf neben dem Namen öffnet eine Liste deiner gelernten Zauber (ohne passive), lange Listen scrollen mit dem Mausrad; Klick trägt ein; Eintippen und Ziehen gehen weiter
+  - 🔧 FIX IMPLEMENTED 2026-10-07 (Owner-Wunsch: Auswahl zusätzlich zu Eintippen/Ziehen, überall gleich)
+  - MANUAL RETEST REQUIRED
 
 ## Cooldowns / Empfehlung
 

@@ -32,6 +32,8 @@ Format: `## [Unreleased]` / `## [x.y.z] - YYYY-MM-DD` with Added, Changed, Fixed
 - Icon (owner-provided 2026-10-02, PaTiSuite style: rotation arrows around a skill list, blue and gold):
   `Media/icon.tga` for the AddOns list, platform images in `assets/`.
 ### Changed
+- Skill slots: an arrow button next to the name opens a list of your learned spells (owner 2026-10-07).
+  Typing and dragging stay.
 - Settings → Skills use PaTiShared's slot list (owner 2026-10-07: same as in PaTiAuras): the help above the list is
   now short keyword lines (Add, Sort, Remove, Priority); handling unchanged.
 - Settings → Skills: a drag grip (≡) at the end of each slot row, after the arrows (owner wish 2026-10-04); the icon

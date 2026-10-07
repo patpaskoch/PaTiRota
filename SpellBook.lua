@@ -9,7 +9,7 @@ ns.Spells = Spells
 -- Logic.CooldownState falls back to Logic.GCD_MAX.
 Spells.GCD_SPELL = 61304
 
-local families = {} -- spell name -> true, from the spellbook (higher ranks have other IDs)
+local families = {} -- spell name -> spell ID (the last rank listed) or true, from the spellbook
 
 function Spells.Name(id)
     if C_Spell and C_Spell.GetSpellInfo then
@@ -32,7 +32,7 @@ function Spells.IsKnown(id)
         return false
     end
     local name = Spells.Name(id)
-    return name ~= nil and families[name] == true
+    return name ~= nil and families[name] ~= nil
 end
 
 -- Learned spell names from the spellbook, modern API first, classic API as fallback.
@@ -45,7 +45,7 @@ local function spellbookNames()
             local info = book.GetSpellBookSkillLineInfo(line)
             for index = info.itemIndexOffset + 1, info.itemIndexOffset + info.numSpellBookItems do
                 local item = book.GetSpellBookItemInfo(index, Enum.SpellBookSpellBank.Player)
-                if item and item.name then names[item.name] = true end
+                if item and item.name then names[item.name] = item.spellID or true end
             end
         end
     elseif GetNumSpellTabs and GetSpellTabInfo and GetSpellBookItemName then
@@ -53,7 +53,8 @@ local function spellbookNames()
             local _, _, offset, count = GetSpellTabInfo(tab)
             for index = offset + 1, offset + count do
                 local name = GetSpellBookItemName(index, "spell")
-                if name then names[name] = true end
+                local _, id = GetSpellBookItemInfo and GetSpellBookItemInfo(index, "spell")
+                if name then names[name] = id or true end
             end
         end
     end
@@ -156,4 +157,23 @@ function Spells.ShowCooldownClock(widget, id)
     end
     pcall(widget.Clear, widget)
     return nil
+end
+
+local function isPassive(id)
+    local fn = (C_Spell and C_Spell.IsSpellPassive) or IsPassiveSpell
+    if not fn then return false end
+    local ok, passive = pcall(fn, id)
+    return ok and (passive == true or passive == 1)
+end
+
+-- Your learned spells for the pick list (owner 2026-10-07): one ID per spell, passive ones left out, sorted by name.
+function Spells.Learned()
+    local list = {}
+    for name, id in pairs(families) do
+        if type(id) == "number" and not isPassive(id) then list[#list + 1] = { id = id, name = name } end
+    end
+    table.sort(list, function(a, b) return a.name < b.name end)
+    local ids = {}
+    for index, entry in ipairs(list) do ids[index] = entry.id end
+    return ids
 end

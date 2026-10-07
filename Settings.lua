@@ -56,6 +56,7 @@ local function build()
         name = Spells.Name,
         icon = Spells.Icon,
         resolve = Spells.Resolve,
+        choices = Spells.Learned,
         fromCursor = Spells.FromCursor,
         notFound = function(text) app.say("SPELL_NOT_FOUND", text) end,
     })
