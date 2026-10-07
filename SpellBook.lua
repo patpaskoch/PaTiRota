@@ -53,7 +53,7 @@ local function spellbookNames()
             local _, _, offset, count = GetSpellTabInfo(tab)
             for index = offset + 1, offset + count do
                 local name = GetSpellBookItemName(index, "spell")
-                local _, id = GetSpellBookItemInfo and GetSpellBookItemInfo(index, "spell")
+                local id = GetSpellBookItemInfo and select(2, GetSpellBookItemInfo(index, "spell"))
                 if name then names[name] = id or true end
             end
         end
