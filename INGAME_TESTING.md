@@ -93,6 +93,11 @@ Regeln und Eintragen von Ergebnissen: [PaTiAdmin/docs/TESTING.md](https://github
   - Owner 2026-10-04: „Drag & Drop funktioniert sehr gut“ — noch offen, ob mit dem Griff ≡ und ob der Abstand passt.
   - ✅ VERIFIED 2026-10-04
   - Owner: Ziehen geht mit beidem (Griff und Icon), der Abstand passt jetzt auch.
+- [ ] PT-ROTA-069 Einstellungen → Skills: Hilfe oben als kurze Stichwort-Liste (Hinzufügen, Sortieren, Entfernen, Priorität),
+  gleich aussehend wie „Meine Auras“ in PaTiAuras; Eintippen, Ziehen, Pfeile, Griff ≡ und Leeren funktionieren wie
+  vorher; Tastenbelegungs-Hinweis weiter unter der Liste
+  - 🔧 FIX IMPLEMENTED 2026-10-07 (Owner-Wunsch: Liste und Erklärung in allen Addons gleich)
+  - MANUAL RETEST REQUIRED
 
 ## Cooldowns / Empfehlung
 

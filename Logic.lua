@@ -69,15 +69,7 @@ function Logic.SetSlot(slots, index, id)
     return slots
 end
 
--- Moves slot `index` one up (delta -1) or down (+1) by swapping with its neighbour. Returns true if it moved.
-function Logic.Move(slots, index, delta)
-    local target = index + delta
-    if target < 1 or target > #slots then return false end
-    slots[index], slots[target] = slots[target], slots[index]
-    return true
-end
-
--- Moves the spell in slot `from` to slot `to` (drag and drop); the slots in between shift by one, so the order of
+-- Moves the spell in slot `from` to slot `to` (arrows: to = from ± 1; drag and drop: any slot); the slots in between shift by one, so the order of
 -- all others stays. Returns true if it moved.
 function Logic.MoveTo(slots, from, to)
     if from == to or not slots[from] or not slots[to] then return false end
