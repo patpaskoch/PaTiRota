@@ -4,6 +4,8 @@ Format: `## [Unreleased]` / `## [x.y.z] - YYYY-MM-DD` with Added, Changed, Fixed
 
 ## [Unreleased] — 0.1.0
 ### Added
+- Theme **Soft Fantasy** (PaTiShared, owner wish 2026-10-19): calm slate blue, grey and violet with a muted
+  lavender accent — the fourth choice in the settings and in PaTiSuite.
 - Cooldown clock on each skill icon (Settings → "Cooldown clock on icons", on by default): the owner's Forever client
   has only `C_Spell.GetSpellCooldown` (no legacy `GetSpellCooldown`) and keeps its values secret in combat, so the
   text shows "unreadable in combat". WoW's own Cooldown widget may still show them: the values go straight from the
