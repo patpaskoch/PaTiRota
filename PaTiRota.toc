@@ -3,7 +3,7 @@
 ## Notes: Your own skill priority: cooldowns, the next ready skill, fixed cast buttons — never casts by itself
 ## Notes-deDE: Deine Skill-Reihenfolge: Abklingzeiten, der nächste bereite Skill, feste Zauber-Buttons — zaubert nie selbst
 ## Author: PaTi
-## Version: 0.1.0
+## Version: 0.1.0-beta.1
 ## IconTexture: Interface\AddOns\PaTiRota\Media\icon
 ## SavedVariablesPerCharacter: PaTiRotaDB
 
