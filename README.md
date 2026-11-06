@@ -4,11 +4,13 @@
 
 ## What is PaTiRota?
 
+> **Installation-test beta available:** [Download the current ZIP from Releases](https://github.com/patpaskoch/PaTiRota/releases). This is an unverified preview for testing the installation, not a stable release.
+
 Your own skill priority for World of Warcraft: Forever (Interface 16001). You put up to ten skills in your order;
 PaTiRota shows which one is ready next and when the others come back. Every skill has its own fixed button you
 can click — **PaTiRota never casts by itself**: no auto-cast, no cast chains, no button that changes its spell in combat.
 
-> Status: in development, not yet released. Not yet tested in game.
+> Status: in development, not yet stable. Not yet tested in game.
 
 ```
 ┌ PaTiRota                         ••• ┐
