@@ -2,6 +2,8 @@
 
 <img src="assets/icon-128.png" width="96" alt="PaTiRota icon">
 
+## What is PaTiRota?
+
 Your own skill priority for World of Warcraft: Forever (Interface 16001). You put up to ten skills in your order;
 PaTiRota shows which one is ready next and when the others come back. Every skill has its own fixed button you
 can click — **PaTiRota never casts by itself**: no auto-cast, no cast chains, no button that changes its spell in combat.
@@ -19,6 +21,7 @@ can click — **PaTiRota never casts by itself**: no auto-cast, no cast chains, 
 ```
 
 ## Features
+
 - Up to ten skill slots; slot 1 has the highest priority. Type a spell name or ID, or drag a spell from your
   spellbook onto a slot; Up/Down change the order
 - Per skill: icon, name, READY / remaining cooldown / GCD / not usable / not learned / unclear
@@ -32,6 +35,23 @@ can click — **PaTiRota never casts by itself**: no auto-cast, no cast chains, 
 
 Not part of PaTiRota (on purpose, V1): rotation rules, resources/buffs/debuffs logic, talent builds, simulations,
 anything that decides or casts for you.
+
+## Installation
+
+![PaTiRota – three-step installation guide](assets/installation_en.svg)
+
+1. 📥 **Download** – Open [GitHub Releases](https://github.com/patpaskoch/PaTiRota/releases) and download the `PaTiRota-<version>.zip` file under **Assets** (not **Source code (zip)**).
+2. 📂 **Extract & Copy** – Right-click the ZIP, select **Extract All**, then copy the extracted `PaTiRota` folder into the WoW Forever client's `Interface/AddOns/` folder. No renaming is needed.
+3. ☑️ **Enable in Game** – Start WoW, open the **AddOns** menu at character selection, tick **PaTiRota**, and click **OK**.
+
+## Getting Started
+
+- `/prota settings` → put your skills into the slots in your order
+- `/prota test` shows example skills
+
+## Settings
+
+Open `/prota settings` to configure your skill slots and their order. Changes to secure cast buttons are applied after combat when necessary.
 
 ## PaTiSuite
 
@@ -55,19 +75,8 @@ Each one is installed on its own and works on its own; none of them is needed by
 - [PaTiAuras](https://github.com/patpaskoch/PaTiAuras) – your buffs, procs and weapon imbues next to your skills
 - [PaTiSuite](https://github.com/patpaskoch/PaTiSuite) – shows and hides this window together with the other PaTi windows
 
-## Installation
-
-![PaTiRota – three-step installation guide](assets/installation_en.svg)
-
-1. 📥 **Download** – Open [GitHub Releases](https://github.com/patpaskoch/PaTiRota/releases) and download the `PaTiRota-<version>.zip` file under **Assets** (not **Source code (zip)**).
-2. 📂 **Extract & Copy** – Right-click the ZIP, select **Extract All**, then copy the extracted `PaTiRota` folder into the WoW Forever client's `Interface/AddOns/` folder. No renaming is needed.
-3. ☑️ **Enable in Game** – Start WoW, open the **AddOns** menu at character selection, tick **PaTiRota**, and click **OK**.
-
-## First steps
-- `/prota settings` → put your skills into the slots in your order
-- `/prota test` shows example skills
-
 ## Commands
+
 `/prota` or `/patirota` — alone or `toggle`: show/hide · `settings` · `test` · `show` · `hide` · `lock` · `unlock` ·
 `reset` (position) · `debug` · `version`
 
@@ -75,6 +84,7 @@ The window cannot be shown, hidden or collapsed in combat (it has secure buttons
 and applied after combat.
 
 ## Known limitations
+
 - Not tested in game yet. Which cooldown API the Forever client answers, and whether it knows the global-cooldown
   reference spell (61304), is unconfirmed — `/prota debug` shows both. Without it, a cooldown up to 1.5 s counts as GCD.
 - Skills are cast with your highest known rank.
@@ -86,4 +96,5 @@ and applied after combat.
 Architecture, tests and engineering rules of the suite: [PaTiAdmin](https://github.com/patpaskoch/PaTiAdmin). PaTiAdmin is not a WoW addon — players do not install it. The shared UI code (PaTiShared) is already embedded in this addon's `Shared/` folder; there is nothing extra to install.
 
 ## License
+
 MIT — see [LICENSE](LICENSE). Copyright (c) 2026 Patrick Koch.
