@@ -2,41 +2,25 @@
 
 <img src="assets/icon-128.png" width="96" alt="PaTiRota icon">
 
+## Install
+
+**📥 [Download PaTiRota Beta](https://github.com/patpaskoch/PaTiRota/releases/download/v0.1.0-beta.1/PaTiRota-0.1.0-beta.1.zip)** · [Installation guide](#installation)
+
+*Installation-test preview — not yet a stable release.*
+
 ## What is PaTiRota?
 
-> **Installation-test beta available:** [Download the current ZIP from Releases](https://github.com/patpaskoch/PaTiRota/releases). This is an unverified preview for testing the installation, not a stable release.
+**Your skills. Your priorities. No guesswork.**
 
-Your own skill priority for World of Warcraft: Forever (Interface 16001). You put up to ten skills in your order;
-PaTiRota shows which one is ready next and when the others come back. Every skill has its own fixed button you
-can click — **PaTiRota never casts by itself**: no auto-cast, no cast chains, no button that changes its spell in combat.
-
-> Status: in development, not yet stable. Not yet tested in game.
-
-```
-┌ PaTiRota                         ••• ┐
-│ Next: Stormstrike · READY            │
-│ [■] Stormstrike           READY      │  ← highlighted (your next skill)
-│ [■] Flame Shock           3.2 s      │
-│ [■] Lava Lash             6.8 s      │
-│ [■] Earth Shock           READY      │
-└──────────────────────────────────────┘
-```
+Stop searching your action bars for what is ready next. PaTiRota keeps your personal skill order and cooldowns in one clear view, highlighting the next available ability. **You decide what to press — every single time.**
 
 ## Features
 
-- Up to ten skill slots; slot 1 has the highest priority. Type a spell name or ID, or drag a spell from your
-  spellbook onto a slot; Up/Down change the order
-- Per skill: icon, name, READY / remaining cooldown / GCD / not usable / not learned / unclear
-- **Next skill:** the highest-priority skill that is ready is highlighted. During the global cooldown the pick does
-  not jump down the list. Nothing ready: the cooldown that ends first. Unreadable cooldowns are never recommended
-- **Fixed cast buttons:** clicking a skill casts exactly that skill on your current target — one click, one cast.
-  The spell of a button is set out of combat only; in combat the highlight moves, the buttons do not
-- Optional key binding per slot in WoW's key binding menu (**ESC > Key Bindings > PaTiRota**); PaTiRota never sets a key
-- ••• menu: Settings, Lock, Collapse, Test Mode, Hide. Settings: language, scale, lock, panel opacity, the skill slots.
-  Languages: English, Deutsch (others fall back to English)
-
-Not part of PaTiRota (on purpose, V1): rotation rules, resources/buffs/debuffs logic, talent builds, simulations,
-anything that decides or casts for you.
+- **Your own priority list:** Arrange up to ten abilities in your preferred order.
+- **Know what's next:** Highlight the highest-priority ready skill.
+- **Cooldown clarity:** See ready, cooling down or unavailable skills.
+- **One skill per click:** Fixed spell buttons and optional key bindings, never auto-cast.
+- **Make it yours:** A compact, customizable window with test mode.
 
 ## Installation
 
@@ -54,6 +38,40 @@ anything that decides or casts for you.
 ## Settings
 
 Open `/prota settings` to configure your skill slots and their order. Changes to secure cast buttons are applied after combat when necessary.
+
+## Important notes
+
+> **Installation-test beta available:** [Download the current ZIP from Releases](https://github.com/patpaskoch/PaTiRota/releases). This is an unverified preview for testing the installation, not a stable release.
+
+> Status: in development, not yet stable. Not yet tested in game.
+
+## Preview
+
+```
+┌ PaTiRota                         ••• ┐
+│ Next: Stormstrike · READY            │
+│ [■] Stormstrike           READY      │  ← highlighted (your next skill)
+│ [■] Flame Shock           3.2 s      │
+│ [■] Lava Lash             6.8 s      │
+│ [■] Earth Shock           READY      │
+└──────────────────────────────────────┘
+```
+
+## Feature details
+
+- Up to ten skill slots; slot 1 has the highest priority. Type a spell name or ID, or drag a spell from your
+  spellbook onto a slot; Up/Down change the order
+- Per skill: icon, name, READY / remaining cooldown / GCD / not usable / not learned / unclear
+- **Next skill:** the highest-priority skill that is ready is highlighted. During the global cooldown the pick does
+  not jump down the list. Nothing ready: the cooldown that ends first. Unreadable cooldowns are never recommended
+- **Fixed cast buttons:** clicking a skill casts exactly that skill on your current target — one click, one cast.
+  The spell of a button is set out of combat only; in combat the highlight moves, the buttons do not
+- Optional key binding per slot in WoW's key binding menu (**ESC > Key Bindings > PaTiRota**); PaTiRota never sets a key
+- ••• menu: Settings, Lock, Collapse, Test Mode, Hide. Settings: language, scale, lock, panel opacity, the skill slots.
+  Languages: English, Deutsch (others fall back to English)
+
+Not part of PaTiRota (on purpose, V1): rotation rules, resources/buffs/debuffs logic, talent builds, simulations,
+anything that decides or casts for you.
 
 ## PaTiSuite
 
