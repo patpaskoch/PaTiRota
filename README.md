@@ -30,6 +30,8 @@ Stop searching your action bars for what is ready next. PaTiRota keeps your pers
 2. 📂 **Extract & Copy** – Right-click the ZIP, select **Extract All**, then copy the extracted `PaTiRota` folder into the WoW Forever client's `Interface/AddOns/` folder. No renaming is needed.
 3. ☑️ **Enable in Game** – Start WoW, open the **AddOns** menu at character selection, tick **PaTiRota**, and click **OK**.
 
+💡 **Tip – Find your AddOns folder:** In the Battle.net launcher, select the WoW version you play, click the **gear icon next to Play → Show in Explorer** (*Im Explorer anzeigen*), then open that client's `Interface/AddOns/` folder. If Battle.net opens the main World of Warcraft folder instead, open the appropriate version folder first. On Mac, use **Show in Finder**.
+
 ## Getting Started
 
 - `/prota settings` → put your skills into the slots in your order
