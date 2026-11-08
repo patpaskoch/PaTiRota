@@ -151,7 +151,8 @@ end
 
 -- Returns true while a shown skill cools down (the ticker keeps the texts current).
 local function paint()
-    if not DB or DB.collapsed then return false end
+    -- A hidden window paints nothing; OnShow (below) paints when it appears again.
+    if not DB or DB.collapsed or not window:IsShown() then return false end
     local now = GetTime()
     local gcd = readGcd()
     local states, names = {}, {}
@@ -207,6 +208,7 @@ end)
 local function update()
     ticker:SetShown(paint() and window:IsShown())
 end
+window:HookScript("OnShow", update)
 
 -- Settings modal: Settings.lua ----------------------------------------------------------------
 

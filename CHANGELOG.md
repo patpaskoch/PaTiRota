@@ -47,6 +47,7 @@ Format: `## [Unreleased]` / `## [x.y.z] - YYYY-MM-DD` with Added, Changed, Fixed
   list; the key binding note (ESC > Key Bindings > PaTiRota) now has its own box below the list.
 - Diagnostics (hardening 2026-10-02): errors that are caught so the addon keeps running are no longer silent — the debug command shows the last caught error per source (no chat spam, nothing saved).
 ### Fixed
+- A hidden window no longer repaints (icons, texts, tooltips); it paints once when shown again (audit 2026-11-08).
 - In combat every known skill showed "unclear" and "Next: nothing ready that can be read" (owner, Forever client
   2026-10-03, Blitzschlag 403 / Erdschock 8042). The cooldown adapter took C_Spell.GetSpellCooldown's table as soon as
   one came back — also with unreadable values — and never asked GetSpellCooldown. Now `Logic.ReadCooldown` checks
