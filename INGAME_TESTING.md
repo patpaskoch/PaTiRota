@@ -40,6 +40,7 @@ Regeln und Eintragen von Ergebnissen: [PaTiAdmin/docs/TESTING.md](https://github
 - [ ] PT-ROTA-015 Test Mode `/prota test`: vier Beispiel-Skills, Sturmschlag hervorgehoben und BEREIT, 3.2 s / 6.8 s,
   TEST-Badge; Klick wirkt nichts
 - [ ] PT-ROTA-016 deDE: alle Texte deutsch, keine Schlüsselnamen, nichts abgeschnitten (Einstellungen, Zeilen)
+- [ ] PT-ROTA-071 Fenster mit `/prota` verstecken und wieder zeigen: sofort stimmen Icons, Texte und die „Als Nächstes“-Zeile; versteckt läuft nichts im Hintergrund (Fix 2026-11-08)
 
 ## Einstellungen / Slots
 
